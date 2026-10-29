@@ -69,6 +69,8 @@ def main():
 
     src, dst = np.asarray(src), np.asarray(dst)
     F = np.asarray(frows, dtype=np.float64)
+    assert np.all(np.isfinite(F)), "Road feature matrix contains unresolved or invalid entries"
+    assert np.all(F[:, 1] >= 1), "Invalid lane count"
 
     # Binary directed adjacency: parallel roads do not increase A_ij beyond 1.
     A = sparse.coo_matrix(
