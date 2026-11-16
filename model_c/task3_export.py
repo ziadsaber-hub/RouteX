@@ -66,7 +66,10 @@ def run_trip(route, events, threshold=0.10, live=None):
 
 # ---------- write the CSV files ----------
 def export_csv(trips, folder="model_c_output"):
-    """trips: list of (trip_id, run_trip result)."""
+    """trips: list of (trip_id, run_trip result). trip_id must be unique (rows of two trips would be mixed)."""
+    ids = [tid for tid, _ in trips]
+    if len(set(ids)) != len(ids):
+        raise ValueError("duplicate trip_id in trips: every trip needs its own id")
     os.makedirs(folder, exist_ok=True)
     with open(f"{folder}/trip_positions.csv", "w", newline="") as f:
         w = csv.writer(f)
@@ -96,10 +99,10 @@ def export_csv(trips, folder="model_c_output"):
 if __name__ == "__main__":
     pairs = make_pairs()                      # same 200 pairs as the Task 3 report
     trips = []
-    for s, d, p in pairs:
+    for n, (s, d, p) in enumerate(pairs):
         eid = edge_at(p, 0.3)                 # demo event: that road closes (one direction) 30% into the trip
         ev = [(event_time(p, 0.3), lambda L, eid=eid: L.close_street(eid[0], eid[1]))]
-        trips.append((f"{s}->{d}", run_trip(p, ev)))
+        trips.append((f"{n:03d}:{s}->{d}", run_trip(p, ev)))     # running number: the same (s,d) can occur twice
     export_csv(trips)
     ch = sum(len(t["changes"]) for _, t in trips)
     print(f"{len(trips)} trips written to model_c_output/  ({ch} route changes)")

@@ -6,11 +6,13 @@ Run Dijkstra on w, penalize exactly the directed edges (u,v,k) of the route foun
 Every candidate is judged with the ORIGINAL, unpenalized Model B times (E[eid]["mu"]).
 Approved conditions (unchanged): detour <= 1.5 x fastest, shared directed edges <= 80%, up to 3 alternatives."""
 import random
-from task1_dijkstra import E, core, dijkstra_edges, route_time, route_length, is_chain
+from task1_dijkstra import E, out, core, dijkstra_edges, route_time, route_length, is_chain
 
 PENALTY = 1.5      # p in equation (11)
+TRIES = 20         # max Dijkstra runs per pair (12 -> 20 gave +0.11 alt/pair; no gain after ~30, measured on 200 pairs)
 MAX_DETOUR = 1.5   # drop alternatives slower than 1.5x the fastest
 MAX_SHARE = 0.8    # drop alternatives sharing >80% of directed edges with a kept route
+SYMMETRIC_OVERLAP = True   # True: reject if EITHER route is >80% inside the other. False: old one-way check
 
 
 def share(p, q):
@@ -19,8 +21,24 @@ def share(p, q):
     return len(ep & eq) / len(ep)
 
 
-def alternatives(src, dst, k=3, tries=12):
-    """Return up to k+1 routes (lists of edge IDs): [fastest, alt1, alt2, ...]."""
+def overlap(p, q):
+    """Symmetric overlap = the larger of share(p,q) and share(q,p).
+    share() alone is asymmetric (it divides by len(p)), so a short route inside a long one looked 'different'.
+    A candidate is rejected when EITHER route is more than MAX_SHARE contained in the other."""
+    if not (p and q):
+        return 0.0
+    return max(share(p, q), share(q, p)) if SYMMETRIC_OVERLAP else share(p, q)
+
+
+def alternatives(src, dst, k=3, tries=None):
+    """Return up to k+1 routes (lists of edge IDs): [fastest, alt1, alt2, ...].
+    Return value [] means: no route at all (dst unreachable from src) or src == dst. Callers must check for it.
+    Raises ValueError if src or dst is not a node of the network (that is a data error, not 'no route')."""
+    tries = TRIES if tries is None else tries
+    if src not in out or dst not in out:
+        raise ValueError(f"unknown node: src={src} dst={dst}")
+    if src == dst:
+        return []
     w = {e: d["mu"] for e, d in E.items()}          # penalized copy; E[...]["mu"] stays untouched
     cost = lambda e: w[e]
     routes, best_t = [], None
@@ -37,7 +55,7 @@ def alternatives(src, dst, k=3, tries=12):
             best_t = t                              # first route = true fastest
         elif t > MAX_DETOUR * best_t:
             continue
-        elif any(share(p, q) > MAX_SHARE for q in routes):
+        elif any(overlap(p, q) > MAX_SHARE for q in routes):
             continue
         routes.append(p)
         if len(routes) == k + 1:
@@ -46,6 +64,7 @@ def alternatives(src, dst, k=3, tries=12):
 
 
 def shortest_by_length(src, dst):
+    """Shortest route by metres, or None if dst is unreachable."""
     return dijkstra_edges(src, dst, lambda e: E[e]["length"])[0]
 
 
@@ -53,6 +72,8 @@ def validate(src, dst, routes):
     """Checks used in the report. Returns a list of problems (empty = all good)."""
     bad = []
     fastest, _ = dijkstra_edges(src, dst, lambda e: E[e]["mu"])
+    if not routes:                                  # unreachable or src == dst: correct only if there truly is no route
+        return [] if (fastest is None or src == dst) else ["no routes returned although dst is reachable"]
     if routes[0] != fastest:
         bad.append("first route is not the true fastest")
     t0 = route_time(routes[0])
@@ -66,8 +87,8 @@ def validate(src, dst, routes):
         for j in range(i):
             if p == routes[j]:
                 bad.append(f"routes {j} and {i} are identical")
-            elif share(p, routes[j]) > MAX_SHARE + 1e-9:
-                bad.append(f"routes {i} and {j} share more than {MAX_SHARE:.0%}")
+            elif overlap(p, routes[j]) > MAX_SHARE + 1e-9:
+                bad.append(f"routes {i} and {j} share more than {MAX_SHARE:.0%} (in either direction)")
     return bad
 
 
