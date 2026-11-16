@@ -1,0 +1,35 @@
+test,value,status
+unreachable destinations return [] and validate() does not crash,328 unreachable pairs tested,PASS
+src == dst returns [],,PASS
+unknown node raises ValueError,,PASS
+200 pairs: 0 validation problems,0,PASS
+detour limit respected (max ratio <= 1.5),max 1.496,PASS
+"overlap limit respected (max <= 0.8, both directions)",max 0.800,PASS
+at most 3 alternatives per pair,max 3,PASS
+avg alternatives per pair,2.21,INFO
+pairs with no alternative,25,INFO
+all 546 directed edges loaded,546,PASS
+every edge has finite positive time,,PASS
+no derived reverse edges,0,PASS
+no negative node ids (so 'u-v-k' splits unambiguously on '-'),,PASS
+drive() switches exactly when saving > 10% (equation 12),"800/800 cases; 88 switched, 78 had a saving of 0-10% and correctly stayed",PASS
+"boundary: switch just below the saving, stay just above",166/166,PASS
+closure forces a switch even with threshold = 1e9 (when a detour exists),200/200; 12 trips have NO detour (destination cut off by the one-way closure),PASS
+forced switch gives the same result at threshold 10% and 1e9,200/200,PASS
+rerouting finishes more trips than static,static 0/200 -> reroute 188/200,PASS
+closing a road already driven does not trigger a change,200/200,PASS
+new route starts at the node where the ambulance is,188/188,PASS
+already-driven edges are never rewritten,188/188,PASS
+every new route is a connected path src -> dst,188/188,PASS
+trip ids are unique,200/200,PASS
+"PAIRS contain a repeated (s,d) pair (why ids need a running number)",1 repeat,PASS
+"exported edge IDs are ordered, connected and parse back to (u,v,k)",388/388 route versions,PASS
+all exported edge IDs exist in Model A,,PASS
+position rows: next edge belongs to the route in force and starts at the current node,4064/4064 rows,PASS
+"signal rows: verified signal, approach ends at it, exit starts at it, ETA >= 0",3319/3319 rows with a signal (745 rows have none ahead),PASS
+ETA falls by exactly the elapsed time between two positions (deltas loaded),754/754,PASS
+export_csv rejects duplicate trip ids,,PASS
+CSV row counts match the in-memory trips,"positions 4064, route edges 6818, changes 188",PASS
+trip_routes: derived_reverse all 0,,PASS
+trip_routes: 'order' runs 0..n-1 inside each route version,,PASS
+trip_routes: edge_id == from-to-key columns,,PASS
