@@ -1,0 +1,4 @@
+﻿edge_index_0based,u,v,key,road,old_lanes,new_lanes,old_ref_speed_kph,new_ref_speed_kph,old_free_flow_s,new_free_flow_s,status
+3,42,43,0,شارع ايران,3.0,1.0,60,30,5.22627981339267,10.45255962678534,confirmed
+5,42,100,0,شارع ايران,3.0,1.0,60,30,4.670913378300017,9.341826756600033,confirmed
+321,102,50,0,شارع الدقى,4.0,4.0,40,60,5.43334880313082,3.6222325354205465,provisional node-102 interpretation
