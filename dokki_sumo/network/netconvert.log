@@ -1,0 +1,34 @@
+Success.
+
+Warning: Ambiguity in turnarounds computation at junction '136'.
+Warning: Ambiguity in turnarounds computation at junction '156'.
+Warning: Ambiguity in turnarounds computation at junction '172'.
+Warning: Ambiguity in turnarounds computation at junction '176'.
+Warning: Ambiguity in turnarounds computation at junction '177'.
+Warning: Found sharp turn with radius 5.51 at the start of edge 'e103to126k0'.
+Warning: Found sharp turn with radius 5.69 at the start of edge 'e103to51k0'.
+Warning: Found sharp turn with radius 7.33 at the start of edge 'e114to32k0'.
+Warning: Found sharp turn with radius 7.22 at the start of edge 'e114to39k0'.
+Warning: Found angle of 101.47 degrees at edge 'e114to39k0', segment 2.
+Warning: Found sharp turn with radius 5.45 at the end of edge 'e114to39k0'.
+Warning: Found angle of 173.02 degrees at edge 'e124to209k1', segment 24.
+Warning: Found angle of 106.82 degrees at edge 'e141to144k0', segment 0.
+Warning: Found angle of 118.00 degrees at edge 'e142to173k0', segment 0.
+Warning: Found angle of 106.82 degrees at edge 'e144to141k0', segment 0.
+Warning: Connection 'e123to125k0_0->e125to208k0_1' is only 0.00m short.
+Warning: Intersecting left turns at junction '128' from lane 'e196to128k0_0' and lane 'e189to128k0_0' (increase junction radius to avoid this).
+Warning: Intersecting left turns at junction '142' from lane 'e79to142k0_0' and lane 'e16to142k0_2' (increase junction radius to avoid this).
+Warning: Intersecting left turns at junction '142' from lane 'e79to142k0_0' and lane 'e16to142k0_2' (increase junction radius to avoid this).
+Warning: Intersecting left turns at junction '156' from lane 'e136to156k4_0' and lane 'e136to156k1_0' (increase junction radius to avoid this).
+Warning: Intersecting left turns at junction '156' from lane 'e136to156k4_0' and lane 'e136to156k1_0' (increase junction radius to avoid this).
+Warning: Speed of straight connection 'e1to181k0_1->e181to158k0_1' reduced by 10.92 due to turning radius of 6.01 (length=14.59, angle=175.50).
+Warning: Speed of straight connection 'e1to42k0_0->e42to1k0_0' reduced by 8.46 due to turning radius of 12.25 (length=15.43, angle=92.21).
+Warning: Speed of straight connection 'e1to42k0_1->e42to1k0_1' reduced by 8.74 due to turning radius of 11.44 (length=14.34, angle=92.21).
+Warning: Speed of straight connection 'e1to42k0_2->e42to1k0_2' reduced by 8.87 due to turning radius of 11.07 (length=13.84, angle=92.21).
+Warning: Connection 'e99to42k0_1->e42to1k0_1' is only 0.00m short.
+Warning: Speed of straight connection 'e44to45k0_0->e45to96k0_1' reduced by 5.60 due to turning radius of 12.50 (length=15.34, angle=90.11).
+Warning: 9 total messages of type: Ambiguity in turnarounds computation at junction '%'.
+Warning: 18 total messages of type: Found angle of % degrees at edge '%', segment %.
+Warning: 65 total messages of type: Found sharp turn with radius % at the % of edge '%'.
+Warning: 70 total messages of type: Intersecting left turns at junction '%' from lane '%' and lane '%' (increase junction radius to avoid this).
+Warning: 8 total messages of type: Speed of % connection '%' reduced by % due to turning radius of % (length=%, angle=%).
