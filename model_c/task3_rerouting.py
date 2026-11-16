@@ -29,14 +29,29 @@ import os
 import pandas as pd
 
 
+_HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def _find(path):
+    """The CSV in the current folder, else next to this script (so it also works when started from another folder)."""
+    for p in (path, os.path.join(_HERE, os.path.basename(path))):
+        if os.path.exists(p):
+            return p
+    return None
+
+
 def _ids(path):
-    return {int(x) for x in pd.read_csv(path, encoding="utf-8-sig")["node_id"]} if os.path.exists(path) else None
+    found = _find(path)
+    return {int(x) for x in pd.read_csv(found, encoding="utf-8-sig")["node_id"]} if found else None
 
 
 SIGNALS = _ids(os.environ.get("ROUTEX_SIGNALS", "Signalized_Intersections.csv"))
 NOT_SIGNALS = _ids(os.environ.get("ROUTEX_NOT_SIGNALS", "Checked_Not_Signalized.csv")) or set()
 SIGNALS_FROM_FILE = SIGNALS is not None
-if SIGNALS is None:                      # no file: fall back to the old guess (4+ streets) and say so
+if SIGNALS is None:                      # no file: fall back to the old guess (4+ streets) and say so (loudly)
+    import warnings
+    warnings.warn("Signalized_Intersections.csv not found: using the GUESS 'every intersection with 4+ streets has a signal'. "
+                  "Signal ETAs are NOT based on verified signals.", RuntimeWarning, stacklevel=2)
     SIGNALS = {int(r.osmid) for r in nodes.itertuples() if r.street_count >= 4}
 SIGNALS = set(SIGNALS) - NOT_SIGNALS
 
