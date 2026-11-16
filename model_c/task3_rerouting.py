@@ -41,6 +41,17 @@ if SIGNALS is None:                      # no file: fall back to the old guess (
 SIGNALS = set(SIGNALS) - NOT_SIGNALS
 
 
+# ---------- input check for everything that arrives from Model B / Model D / SUMO ----------
+def _check(vals, name, positive=True):
+    """Stop with a clear message instead of silently using a bad value (NaN would make Dijkstra skip the edge)."""
+    unknown = [e for e in vals if e not in E]
+    if unknown:
+        raise KeyError(f"{name}: {len(unknown)} edge IDs not in Model A, e.g. {unknown[0]}")
+    bad = [e for e, t in vals.items() if not math.isfinite(t) or (positive and t <= 0)]
+    if bad:
+        raise ValueError(f"{name}: non-finite or non-positive value on {bad[0]}")
+
+
 # ---------- live network: what is true right now ----------
 class Live:
     def __init__(self):
@@ -78,20 +89,24 @@ class Live:
         self.version += 1
 
     def slow_edge(self, eid, factor):
+        _check({eid: factor}, "slowdown")
         self.slow[eid] = factor
         self.version += 1
 
     def set_slowdowns(self, factors):
+        _check(factors, "slowdown")
         self.slow.update(factors)
         self.version += 1
 
     def update_travel_times(self, mu):
         """Entry point for a new Model B estimate {(u,v,k): seconds}."""
+        _check(mu, "Model B")
         self.mu.update(mu)
         self.version += 1
 
     def set_signal_deltas(self, deltas):
         """Entry point for Model D: {approach (u,v,k): T_priority - T_normal in seconds}."""
+        _check(deltas, "Model D", positive=False)      # a delta may be negative (priority saves time)
         self.signal = dict(deltas)
         self.version += 1
 
@@ -103,12 +118,15 @@ def live_search(live, src, dst):
 
 
 def upcoming_signal(route, i, live, dst):
-    """First signal still ahead: its node, approach edge, exit edge and the time until reaching it."""
+    """First signal still ahead: its node, approach edge, exit edge and the time until the ambulance has passed it.
+    If a closed road comes before the signal, the time is unknown and no signal is reported."""
     t = 0.0
     for j in range(i, len(route)):
         t += live.cost(route[j], dst)
+        if t == INF:
+            return None
         if route[j][1] in SIGNALS and j + 1 < len(route):
-            return dict(node=route[j][1], approach=route[j], exit=route[j + 1], eta_s=None if t == INF else t)
+            return dict(node=route[j][1], approach=route[j], exit=route[j + 1], eta_s=t)
     return None
 
 
