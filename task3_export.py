@@ -1,5 +1,5 @@
 """ROUTEX - C Model - interface for the other models: live ambulance position,
-ordered route edge IDs, and route-change updates.
+ordered route edge IDs, and route-change updates. All routing uses Dijkstra.
 
 Run:  python task3_export.py        (needs the other task files and the xlsx next to it)
 Writes, into the folder  model_c_output/ :
@@ -50,10 +50,10 @@ def route_edges(route):
 
 
 # ---------- one trip, recorded ----------
-def run_trip(route, events, threshold=0.10, use_h=True):
-    """Drive one trip with rerouting on and return everything the other models need."""
+def run_trip(route, events, threshold=0.10):
+    """Drive one trip with rerouting on (Dijkstra) and return everything the other models need."""
     log = {}
-    res = drive(route, Live(), events, mode="reroute", threshold=threshold, use_h=use_h, log=log)
+    res = drive(route, Live(), events, mode="reroute", threshold=threshold, log=log)
     return dict(
         positions=[dict(time_s=round(t, 2), node=n,
                         next_edge_id=edge_id(n, nx_)[0] if nx_ is not None else "",

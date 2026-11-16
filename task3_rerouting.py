@@ -1,6 +1,6 @@
 """ROUTEX - C Model - Task 3: rerouting when road times change or a road closes.
-Run:  python task3_rerouting.py        (needs task1_dijkstra.py, task1_astar.py,
-                                         task2_alternatives.py and the xlsx next to it)
+Run:  python task3_rerouting.py        (needs task1_dijkstra.py, task2_alternatives.py
+                                         and the xlsx next to it)
 Prints every table used in the Task 3 report. Seeds: pairs random.seed(1), fluctuation tests
 random.seed(7), placeholder signal delays random.seed(3).
 Time unit everywhere = seconds. Task 1 / Task 2 numbers are NOT changed here:
@@ -8,15 +8,14 @@ Time unit everywhere = seconds. Task 1 / Task 2 numbers are NOT changed here:
 
 Idea: the ambulance drives along its route. At every intersection it checks the
 live network. If something changed it searches again from where it is
-(Dijkstra or A* on the live weights) and switches route only if the new route
+(Dijkstra on the live weights) and switches route only if the new route
 saves more than the Rerouting Threshold. A closed road forces a switch."""
 import heapq
 import math
 import random
 import time
 from task1_dijkstra import adj, core, nodes
-from task1_astar import h as heuristic          # same admissible heuristic (0.99 factor) as Task 1
-from task2_alternatives import dijkstra_w, stats
+from task2_alternatives import stats
 
 INF = math.inf
 
@@ -60,13 +59,13 @@ class Live:
         self.version += 1
 
 
-# ---------- search on the live weights (A* or Dijkstra) ----------
-def live_search(live, src, dst, use_h=True):
-    """Returns (path, cost, expanded_nodes). Times only grow, so the Task 1 heuristic stays admissible."""
-    g, prev, closed, expanded = {src: 0.0}, {}, set(), 0
-    pq = [(heuristic(src, dst) if use_h else 0.0, src)]
+# ---------- Dijkstra on the live weights ----------
+def live_search(live, src, dst):
+    """Dijkstra on the live weights. Returns (path, cost, expanded_nodes)."""
+    dist, prev, closed, expanded = {src: 0.0}, {}, set(), 0
+    pq = [(0.0, src)]
     while pq:
-        _, u = heapq.heappop(pq)
+        d, u = heapq.heappop(pq)
         if u in closed:
             continue
         closed.add(u)
@@ -77,24 +76,24 @@ def live_search(live, src, dst, use_h=True):
             c = live.cost(u, v, dst)
             if c == INF:
                 continue
-            ng = g[u] + c
-            if ng < g.get(v, INF):
-                g[v], prev[v] = ng, u
-                heapq.heappush(pq, (ng + (heuristic(v, dst) if use_h else 0.0), v))
-    if dst not in g:
+            nd = d + c
+            if nd < dist.get(v, INF):
+                dist[v], prev[v] = nd, u
+                heapq.heappush(pq, (nd, v))
+    if dst not in dist:
         return None, INF, expanded
     path = [dst]
     while path[-1] != src:
         path.append(prev[path[-1]])
-    return path[::-1], g[dst], expanded
+    return path[::-1], dist[dst], expanded
 
 
 # ---------- one trip ----------
-def drive(route, live, events, mode="reroute", threshold=0.10, use_h=True, log=None):
+def drive(route, live, events, mode="reroute", threshold=0.10, log=None):
     """Simulate one ambulance trip.
     events: list of (time_s, function(live)) applied when the clock reaches them.
     mode 'static'  : never reroute (baseline).
-    mode 'reroute' : re-search when the network changed; switch if the saving > threshold x remaining time
+    mode 'reroute' : re-search (Dijkstra) when the network changed; switch if the saving > threshold x remaining time
                      (a closed road on the route forces a switch whatever the threshold).
     log: optional dict; if given, the trip is recorded in it (used by task3_export.py, changes no result).
     Returns dict: total time, route changes, searches, search time, expanded nodes, finished?"""
@@ -112,7 +111,7 @@ def drive(route, live, events, mode="reroute", threshold=0.10, use_h=True, log=N
             seen = live.version
             remaining = live.route_cost(route[i:], dst)
             t0 = time.perf_counter()
-            new, new_cost, exp = live_search(live, route[i], dst, use_h)
+            new, new_cost, exp = live_search(live, route[i], dst)
             out["run_s"] += time.perf_counter() - t0
             out["searches"] += 1
             out["expanded"] += exp
@@ -270,18 +269,6 @@ if __name__ == "__main__":
         r = drive(p, Live(), [(event_time(p, 0.3), lambda L, u=u, v=v: L.close_street(u, v))])
         t0 = stats(p)[0]
         print(f"{s_:>4} -> {d_:<4}{len(p) - 1:>6}{t0:>8.0f}{str(u) + '-' + str(v):>14}{r['time']:>10.0f}{100 * (r['time'] / t0 - 1):>7.0f}%")
-
-    # Dijkstra vs A* for the replanning step
-    rows, _ = scenario_closure(pairs)
-    print("\nreplanning step, closure scenario:")
-    for use_h, nm in ((False, "Dijkstra"), (True, "A*")):
-        rr = []
-        for s, d, p in pairs:
-            u, v = edge_at(p, d, 0.3)
-            ev = [(event_time(p, 0.3), lambda L, u=u, v=v: L.close_street(u, v))]
-            rr.append(drive(p, Live(), ev, use_h=use_h))
-        x = summary(rr)
-        print(f"{nm:<9} avg nodes expanded/search = {x['exp']:.1f}   {x['ms']:.3f} ms/search   avg time {x['time']:.1f} s")
 
     print("\nC) many small fluctuations (every 15 s, every road x[1, 1.6]) - Rerouting Threshold sweep")
     print(f"{'threshold':>10}{'avg time':>10}{'changes':>9}{'searches':>9}")
