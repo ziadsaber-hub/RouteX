@@ -1,0 +1,3 @@
+﻿node_id,lat,lon,status,evidence,osm_node_id,street_count,max_road_class,streets,selection_rule
+4,30.0304196,31.2125539,verified,تحققت بنفسي (OSM node 13060713910 also within 20.8 m),13060713910,2,secondary,شارع الدقى | شارع المساحه,
+142,30.040621436120997,31.21105922929392,verified,تحققت بنفسي,,8,tertiary,شارع الدقى | شارع جاد عيد | شارع زينب كامل حسن | شارع شاهين | شارع مصدق | شارع وزاره الزراعه,
