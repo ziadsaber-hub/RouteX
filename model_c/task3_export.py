@@ -6,6 +6,9 @@ Writes, into the folder  model_c_output/ :
   trip_positions.csv  - where the ambulance is, step by step: current node, next directed edge, next signal
   trip_routes.csv     - the ordered directed edge IDs of the route in force, one row per edge, per route version
   route_changes.csv   - one row every time the route changed, and why
+  trip_summary.csv    - one row per trip: reached the destination?, planned time, simulated time, number of changes
+                        (finished=0 means the trip got stuck: e.g. a closure cut the destination off, no detour exists;
+                        total_time_s is then the time until it got stuck)
 
 Directed edge ID = "u-v-k" = the (u, v, key) of ONE row of the Model A Edges sheet. The ID already fixes the
 direction (u -> v); parallel roads between the same intersections have different k and are never merged.
@@ -21,7 +24,7 @@ Or from code (for Model D / other models):
 """
 import csv
 import os
-from task1_dijkstra import E
+from task1_dijkstra import E, route_time
 from task3_rerouting import Live, drive, make_pairs, edge_at, event_time
 
 
@@ -60,7 +63,8 @@ def run_trip(route, events, threshold=0.10, live=None):
         changes=[dict(time_s=round(t, 2), at_node=n, reason=why,
                       remaining_on_old_s=_num(rem), new_route_s=round(new, 2))
                  for t, n, why, rem, new in log["changes"]],
-        summary=dict(finished=log["finished"], total_time_s=round(res["time"], 2), changes=res["changes"]),
+        summary=dict(finished=log["finished"], planned_time_s=round(route_time(route), 2),
+                     total_time_s=round(res["time"], 2), changes=res["changes"]),
     )
 
 
@@ -88,6 +92,12 @@ def export_csv(trips, folder="model_c_output"):
                 for k, e in enumerate(rt["edges"]):
                     w.writerow([tid, ver, rt["time_s"], rt["reason"], k, eid_str(e), e[0], e[1], e[2],
                                 int(E[e]["derived"])])
+    with open(f"{folder}/trip_summary.csv", "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["trip_id", "finished", "planned_time_s", "total_time_s", "route_changes"])
+        for tid, tr in trips:
+            sm = tr["summary"]
+            w.writerow([tid, int(sm["finished"]), sm["planned_time_s"], sm["total_time_s"], sm["changes"]])
     with open(f"{folder}/route_changes.csv", "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["trip_id", "time_s", "at_node", "reason", "remaining_on_old_route_s", "new_route_s"])
