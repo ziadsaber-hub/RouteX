@@ -3,7 +3,7 @@ meta,all,,travel_time_source,TEST MODE: Model A free-flow times (no Model B data
 meta,all,,directed_edges,546,
 meta,all,,derived_reverse_edges,0,
 meta,all,,strongly_connected_core_nodes,206,start/end nodes are drawn from this set
-meta,all,,signals_verified,2,from Signalized_Intersections.csv minus Checked_Not_Signalized.csv
+meta,all,,signals_verified,2,from Signalized_Intersections.csv minus Checked_Not_Signalized.csv; nodes 4 and 142; only 142 has approach edges (node 4 has no incoming edge in the graph)
 meta,all,,seeds,"pairs=1, fluctuation=7, model_b_update=11, placeholder_deltas=3, dijkstra_check=0",
 dijkstra,200 random pairs,fastest,matches_networkx,200,of 200
 dijkstra,200 random pairs,fastest vs shortest,routes_that_differ,77,of 200
@@ -119,4 +119,19 @@ robustness,one edge x5 at 60% of trip,reroute,avg_trip_time_s,158.6328,
 model_d_interface,"PLACEHOLDER deltas U[-10,+5] s",,pairs_with_changed_route,4,"of 200; placeholder values, NOT real Model D output"
 model_d_interface,"PLACEHOLDER deltas U[-10,+5] s",,avg_time_task1_route_s,132.2324,
 model_d_interface,"PLACEHOLDER deltas U[-10,+5] s",,avg_time_delta_aware_route_s,132.1616,
-validation,validate_model_c.py,,tests_passed,39,of 39
+validation,validate_model_c.py,,tests_passed,32,of 32 (re-run 2026-11-17; the earlier value 39 was from an older version of the file)
+model_a_consistency,Model C workbook vs Model A (546 directed edges),,edge_keys_identical,1,"same (u,v,key) set in RouteX_Road_Data_completed.xlsx and Edge_Index.csv; no duplicates"
+model_a_consistency,Model C workbook vs Model A (546 directed edges),,edges_with_speed_mismatch,0,Model C maxspeed_osm column == Model A reference_speed_kph on all 546 (the column holds the reviewed speed)
+model_a_consistency,Model C workbook vs Model A (546 directed edges),,max_length_difference_m,1.42e-14,
+model_a_consistency,Model C workbook vs Model A (546 directed edges),,max_free_flow_difference_s,7.11e-15,Model C length/(speed/3.6) vs Edge_Index free_flow_s_precise
+model_a_consistency,Model A matrices,,shapes,"A (222, 222), B (222, 546), F (546, 4)",F speed and free-flow columns equal Edge_Index.csv; build_and_verify_matrices.py passes (rank 221 = 222 - 1 weak component)
+model_a_consistency,Changes_v3.csv,,changes_applied,3 of 3,"edges 3 and 5 confirmed (Iran St, 1 lane, 30 km/h); edge 321 (102->50, 60 km/h) is PROVISIONAL, team must confirm"
+model_b_interface,model_c_inputs.py (new),,adapter_tests_passed,16,"of 16 (test_model_c_inputs.py); formats: u/v/key, edge_id u-v-k, edge_index_0based, csv/xlsx, minutes/ms/hours, intervals"
+model_b_interface,missing-value rule,,edge_absent_from_model_b_file,free-flow,"keeps Model A free-flow time, counted in MISSING_B and listed in the report"
+model_b_interface,missing-value rule,,empty_nan_or_nonpositive_time,free-flow,treated like an absent edge by the adapter (task1_dijkstra.set_travel_times alone would stop with an error); strict=True makes both cases an error
+model_b_interface,missing-value rule,,unknown_edge_or_conflicting_duplicates,error,"always an error; aggregate=""mean""/""last"" settles duplicates on request"
+model_d_interface,Model_D_signal_deltas_template.csv,,approach_edges_to_fill,4,all arrive at signal node 142; node 4 has 0 incoming edges in the graph
+model_d_interface,signal ETA definition,,signal_eta_s,time until PASSED,includes the signal Delta T; OPEN QUESTION for Model D: time until REACHED instead?
+limitations,travel_time_source,,model_b_file,not received,all results above use Model A free-flow times (TEST MODE); re-run after Model B arrives
+limitations,static baseline in closure scenario,,static_trips_finished,0 of 200,"by design: the closed edge is always 2 edges ahead on the route, so a no-rerouting vehicle always gets stuck"
+limitations,closure scenario,,trips_with_no_detour,12 of 200,destination cut off by the one-way closure; these trips report finished=0
