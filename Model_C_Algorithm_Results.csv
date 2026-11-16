@@ -1,0 +1,122 @@
+group,scenario,mode,metric,value,note
+meta,all,,travel_time_source,TEST MODE: Model A free-flow times (no Model B data loaded),"replace by Model B file when it arrives, then re-run"
+meta,all,,directed_edges,546,
+meta,all,,derived_reverse_edges,0,
+meta,all,,strongly_connected_core_nodes,206,start/end nodes are drawn from this set
+meta,all,,signals_verified,2,from Signalized_Intersections.csv minus Checked_Not_Signalized.csv
+meta,all,,seeds,"pairs=1, fluctuation=7, model_b_update=11, placeholder_deltas=3, dijkstra_check=0",
+dijkstra,200 random pairs,fastest,matches_networkx,200,of 200
+dijkstra,200 random pairs,fastest vs shortest,routes_that_differ,77,of 200
+alternatives,"overlap symmetric (default), tries=20",penalty,avg_alternatives_per_pair,2.21,
+alternatives,"overlap symmetric (default), tries=20",penalty,pairs_with_no_alternative,25,of 200
+alternatives,"overlap symmetric (default), tries=20",penalty,pairs_with_3_alternatives,118,of 200
+alternatives,"overlap symmetric (default), tries=20",penalty,validation_problems,0,
+alternatives,"overlap symmetric (default), tries=20",penalty,max_detour_ratio,1.4956,limit 1.5
+alternatives,"overlap symmetric (default), tries=20",penalty,max_overlap,0.8,limit 0.8 (measured the same way as the mode)
+alternatives,"overlap one-way (old), tries=20",penalty,avg_alternatives_per_pair,2.44,
+alternatives,"overlap one-way (old), tries=20",penalty,pairs_with_no_alternative,16,of 200
+alternatives,"overlap one-way (old), tries=20",penalty,pairs_with_3_alternatives,141,of 200
+alternatives,"overlap one-way (old), tries=20",penalty,validation_problems,0,
+alternatives,"overlap one-way (old), tries=20",penalty,max_detour_ratio,1.4956,limit 1.5
+alternatives,"overlap one-way (old), tries=20",penalty,max_overlap,0.9375,limit 0.8 (measured the same way as the mode)
+alternatives_tries,tries=6,penalty,avg_alternatives_per_pair,1.92,
+alternatives_tries,tries=6,penalty,pairs_with_no_alternative,29,of 200
+alternatives_tries,tries=12,penalty,avg_alternatives_per_pair,2.12,
+alternatives_tries,tries=12,penalty,pairs_with_no_alternative,27,of 200
+alternatives_tries,tries=20,penalty,avg_alternatives_per_pair,2.21,
+alternatives_tries,tries=20,penalty,pairs_with_no_alternative,25,of 200
+alternatives_tries,tries=30,penalty,avg_alternatives_per_pair,2.26,
+alternatives_tries,tries=30,penalty,pairs_with_no_alternative,25,of 200
+alternatives_tries,tries=50,penalty,avg_alternatives_per_pair,2.29,
+alternatives_tries,tries=50,penalty,pairs_with_no_alternative,25,of 200
+rerouting,A closure of one direction at 30% of trip,,baseline_eta_avg_s,133.3482,
+rerouting,A closure of one direction at 30% of trip,static,trips_finished,0,of 200
+rerouting,A closure of one direction at 30% of trip,static,avg_trip_time_s,n/a,no trip finished
+rerouting,A closure of one direction at 30% of trip,static,avg_route_changes,0.0,
+rerouting,A closure of one direction at 30% of trip,static,avg_searches,0.0,
+rerouting,A closure of one direction at 30% of trip,static,ms_per_search,n/a,static mode never searches
+rerouting,A closure of one direction at 30% of trip,reroute,trips_finished,188,of 200
+rerouting,A closure of one direction at 30% of trip,reroute,avg_trip_time_s,181.7754,finished trips only
+rerouting,A closure of one direction at 30% of trip,reroute,avg_route_changes,0.94,
+rerouting,A closure of one direction at 30% of trip,reroute,avg_searches,1.0,
+rerouting,A closure of one direction at 30% of trip,reroute,ms_per_search,0.1891,
+rerouting,B congestion x3 on one edge at 30%,,baseline_eta_avg_s,133.3482,
+rerouting,B congestion x3 on one edge at 30%,static,trips_finished,200,of 200
+rerouting,B congestion x3 on one edge at 30%,static,avg_trip_time_s,149.5652,finished trips only
+rerouting,B congestion x3 on one edge at 30%,static,avg_route_changes,0.0,
+rerouting,B congestion x3 on one edge at 30%,static,avg_searches,0.0,
+rerouting,B congestion x3 on one edge at 30%,static,ms_per_search,n/a,static mode never searches
+rerouting,B congestion x3 on one edge at 30%,reroute,trips_finished,200,of 200
+rerouting,B congestion x3 on one edge at 30%,reroute,avg_trip_time_s,147.1029,finished trips only
+rerouting,B congestion x3 on one edge at 30%,reroute,avg_route_changes,0.11,
+rerouting,B congestion x3 on one edge at 30%,reroute,avg_searches,1.0,
+rerouting,B congestion x3 on one edge at 30%,reroute,ms_per_search,0.1614,
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",,baseline_eta_avg_s,133.3482,
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",static,trips_finished,200,of 200
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",static,avg_trip_time_s,177.0186,finished trips only
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",static,avg_route_changes,0.0,
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",static,avg_searches,0.0,
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",static,ms_per_search,n/a,static mode never searches
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",reroute,trips_finished,200,of 200
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",reroute,avg_trip_time_s,176.8011,finished trips only
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",reroute,avg_route_changes,0.01,
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",reroute,avg_searches,1.0,
+rerouting,"F Model B update (all edges x U[1,2]) at 30%",reroute,ms_per_search,0.1445,
+threshold_sweep,"C fluctuation every 15 s, threshold=0%",reroute,avg_trip_time_s,167.3985,
+threshold_sweep,"C fluctuation every 15 s, threshold=0%",reroute,avg_route_changes,0.97,
+threshold_sweep,"C fluctuation every 15 s, threshold=0%",reroute,avg_searches,8.84,
+threshold_sweep,"C fluctuation every 15 s, threshold=5%",reroute,avg_trip_time_s,167.4473,
+threshold_sweep,"C fluctuation every 15 s, threshold=5%",reroute,avg_route_changes,0.13,
+threshold_sweep,"C fluctuation every 15 s, threshold=5%",reroute,avg_searches,8.81,
+threshold_sweep,"C fluctuation every 15 s, threshold=10%",reroute,avg_trip_time_s,167.3999,
+threshold_sweep,"C fluctuation every 15 s, threshold=10%",reroute,avg_route_changes,0.025,
+threshold_sweep,"C fluctuation every 15 s, threshold=10%",reroute,avg_searches,8.805,
+threshold_sweep,"C fluctuation every 15 s, threshold=15%",reroute,avg_trip_time_s,167.4351,
+threshold_sweep,"C fluctuation every 15 s, threshold=15%",reroute,avg_route_changes,0.005,
+threshold_sweep,"C fluctuation every 15 s, threshold=15%",reroute,avg_searches,8.8,
+threshold_sweep,"C fluctuation every 15 s, threshold=20%",reroute,avg_trip_time_s,167.4547,
+threshold_sweep,"C fluctuation every 15 s, threshold=20%",reroute,avg_route_changes,0.0,
+threshold_sweep,"C fluctuation every 15 s, threshold=20%",reroute,avg_searches,8.8,
+threshold_sweep,"C fluctuation every 15 s, threshold=30%",reroute,avg_trip_time_s,167.4547,
+threshold_sweep,"C fluctuation every 15 s, threshold=30%",reroute,avg_route_changes,0.0,
+threshold_sweep,"C fluctuation every 15 s, threshold=30%",reroute,avg_searches,8.8,
+threshold_sweep,"E one edge x5, threshold=0%",reroute,avg_trip_time_s,155.4761,
+threshold_sweep,"E one edge x5, threshold=0%",reroute,avg_route_changes,0.405,
+threshold_sweep,"E one edge x5, threshold=5%",reroute,avg_trip_time_s,155.7547,
+threshold_sweep,"E one edge x5, threshold=5%",reroute,avg_route_changes,0.33,
+threshold_sweep,"E one edge x5, threshold=10%",reroute,avg_trip_time_s,156.3762,
+threshold_sweep,"E one edge x5, threshold=10%",reroute,avg_route_changes,0.26,
+threshold_sweep,"E one edge x5, threshold=20%",reroute,avg_trip_time_s,158.2491,
+threshold_sweep,"E one edge x5, threshold=20%",reroute,avg_route_changes,0.17,
+threshold_sweep,"E one edge x5, threshold=30%",reroute,avg_trip_time_s,160.3045,
+threshold_sweep,"E one edge x5, threshold=30%",reroute,avg_route_changes,0.1,
+threshold_sweep,"E one edge x5, threshold=50%",reroute,avg_trip_time_s,163.8312,
+threshold_sweep,"E one edge x5, threshold=50%",reroute,avg_route_changes,0.03,
+robustness,closure at 10% of trip,static,trips_finished,0,of 200
+robustness,closure at 10% of trip,reroute,trips_finished,185,of 200
+robustness,closure at 30% of trip,static,trips_finished,0,of 200
+robustness,closure at 30% of trip,reroute,trips_finished,188,of 200
+robustness,closure at 60% of trip,static,trips_finished,0,of 200
+robustness,closure at 60% of trip,reroute,trips_finished,167,of 200
+robustness,one edge x2 at 10% of trip,static,avg_trip_time_s,142.8681,
+robustness,one edge x2 at 10% of trip,reroute,avg_trip_time_s,142.3171,
+robustness,one edge x2 at 30% of trip,static,avg_trip_time_s,141.4567,
+robustness,one edge x2 at 30% of trip,reroute,avg_trip_time_s,140.6492,
+robustness,one edge x2 at 60% of trip,static,avg_trip_time_s,142.7794,
+robustness,one edge x2 at 60% of trip,reroute,avg_trip_time_s,142.0482,
+robustness,one edge x3 at 10% of trip,static,avg_trip_time_s,152.388,
+robustness,one edge x3 at 10% of trip,reroute,avg_trip_time_s,149.5283,
+robustness,one edge x3 at 30% of trip,static,avg_trip_time_s,149.5652,
+robustness,one edge x3 at 30% of trip,reroute,avg_trip_time_s,147.1029,
+robustness,one edge x3 at 60% of trip,static,avg_trip_time_s,152.2107,
+robustness,one edge x3 at 60% of trip,reroute,avg_trip_time_s,148.7552,
+robustness,one edge x5 at 10% of trip,static,avg_trip_time_s,171.4278,
+robustness,one edge x5 at 10% of trip,reroute,avg_trip_time_s,159.8998,
+robustness,one edge x5 at 30% of trip,static,avg_trip_time_s,165.7821,
+robustness,one edge x5 at 30% of trip,reroute,avg_trip_time_s,156.3762,
+robustness,one edge x5 at 60% of trip,static,avg_trip_time_s,171.0731,
+robustness,one edge x5 at 60% of trip,reroute,avg_trip_time_s,158.6328,
+model_d_interface,"PLACEHOLDER deltas U[-10,+5] s",,pairs_with_changed_route,4,"of 200; placeholder values, NOT real Model D output"
+model_d_interface,"PLACEHOLDER deltas U[-10,+5] s",,avg_time_task1_route_s,132.2324,
+model_d_interface,"PLACEHOLDER deltas U[-10,+5] s",,avg_time_delta_aware_route_s,132.1616,
+validation,validate_model_c.py,,tests_passed,39,of 39
