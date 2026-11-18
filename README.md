@@ -43,7 +43,6 @@ The road network is represented using graph-based structures, while travel-time 
 
 The framework is evaluated using scenarios designed to compare emergency vehicle performance under different traffic and signal-control conditions.
 
-```
 
 ## Research Team
 
