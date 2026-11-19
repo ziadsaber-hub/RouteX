@@ -1,5 +1,4 @@
-﻿<viewsettings>
-  <scheme name="RouteX">
-    <vehicles vehicleQuality="2"/>
-  </scheme>
+<?xml version="1.0" encoding="UTF-8"?>
+<viewsettings>
+    <scheme name="RouteX Traffic Lights"/>
 </viewsettings>

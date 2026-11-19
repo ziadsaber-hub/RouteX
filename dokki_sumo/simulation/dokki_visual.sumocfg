@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<configuration>
+    <input>
+        <net-file value="../network/dokki.net.xml" />
+        <route-files value="dokki_random.rou.xml" />
+        <additional-files value="traffic_lights.add.xml" />
+    </input>
+    <time>
+        <begin value="0" />
+        <end value="600" />
+        <step-length value="1" />
+    </time>
+    <processing>
+        <time-to-teleport value="-1" />
+    </processing>
+    <gui_only>
+        <gui-settings-file value="routex.viewsettings.xml" />
+    </gui_only>
+</configuration>

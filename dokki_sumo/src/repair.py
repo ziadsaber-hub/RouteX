@@ -1,0 +1,312 @@
+#!/usr/bin/env python3
+"""Safely test a geometry-aware SUMO network candidate for RouteX.
+
+The baseline network is NEVER overwritten. This script supports the RouteX
+layout:
+    dokki_sumo/
+      network/       dokki.nod.xml, dokki.edg.xml, dokki.typ.xml, dokki.net.xml
+      simulation/    dokki_random.rou.xml
+      src/           repair.py
+
+It also supports the older flattened layout. A candidate is accepted only if
+source-edge IDs and traffic-light controller IDs are preserved and the fixed
+600-second demand run reports zero junction collisions.
+"""
+from __future__ import annotations
+
+import json
+import shutil
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+
+# Prefer the actual RouteX project folders; retain compatibility with the
+# previous flattened layout and with running the script from project root.
+NETWORK_CANDIDATES = (
+    PROJECT_ROOT / "network",
+    SCRIPT_DIR / "network",
+    SCRIPT_DIR,
+    PROJECT_ROOT,
+)
+SIMULATION_CANDIDATES = (
+    PROJECT_ROOT / "simulation",
+    SCRIPT_DIR / "simulation",
+    SCRIPT_DIR,
+    PROJECT_ROOT,
+)
+
+
+def find_file(filename: str, folders: tuple[Path, ...]) -> Path:
+    for folder in folders:
+        candidate = folder / filename
+        if candidate.is_file():
+            return candidate
+    searched = "\n".join(str(folder / filename) for folder in folders)
+    raise FileNotFoundError(
+        f"Could not find {filename}. Checked these locations:\n{searched}"
+    )
+
+
+NODES = find_file("dokki.nod.xml", NETWORK_CANDIDATES)
+EDGES = find_file("dokki.edg.xml", NETWORK_CANDIDATES)
+TYPES = find_file("dokki.typ.xml", NETWORK_CANDIDATES)
+BASELINE = find_file("dokki.net.xml", NETWORK_CANDIDATES)
+ROUTES = find_file("dokki_random.rou.xml", SIMULATION_CANDIDATES)
+
+# Keep generated files outside network/ and simulation/.
+OUT = PROJECT_ROOT / "repair_candidates"
+CANDIDATE = OUT / "geometry_avoid_overlap.net.xml"
+COLLISIONS = OUT / "candidate_collisions.xml"
+TRIPINFO = OUT / "candidate_tripinfo.xml"
+REPORT = OUT / "repair_validation.json"
+TLS_LOGIC = OUT / "baseline_tllogic.add.xml"
+CONNECTIONS = OUT / "baseline_connections.con.xml"
+CANDIDATE_NODES = OUT / "candidate_nodes.nod.xml"
+
+
+def require_tool(name: str) -> str:
+    path = shutil.which(name)
+    if not path:
+        raise RuntimeError(
+            f"Required SUMO tool '{name}' is not on PATH. "
+            "Activate the project's environment and ensure SUMO 1.28.0/bin is on PATH."
+        )
+    return path
+
+
+def run(args: list[str], log: Path | None = None) -> subprocess.CompletedProcess:
+    result = subprocess.run(
+        args, capture_output=True, text=True, errors="replace"
+    )
+    if log:
+        log.write_text(
+            (result.stdout or "") + "\n" + (result.stderr or ""),
+            encoding="utf-8",
+        )
+    if result.returncode:
+        raise RuntimeError(
+            f"Command failed ({result.returncode}): {' '.join(args)}\n"
+            f"{result.stderr}"
+        )
+    return result
+
+
+def xml_root(path: Path) -> ET.Element:
+    return ET.parse(path).getroot()
+
+
+def source_edge_ids(path: Path) -> set[str]:
+    root = xml_root(path)
+    return {
+        edge.get("id")
+        for edge in root.findall("edge")
+        if edge.get("function") != "internal"
+        and not (edge.get("id") or "").startswith(":")
+    }
+
+
+def traffic_light_ids(path: Path) -> set[str]:
+    return {
+        tls.get("id")
+        for tls in xml_root(path).findall("tlLogic")
+        if tls.get("id")
+    }
+
+
+def route_count(path: Path) -> int:
+    root = xml_root(path)
+    return len(root.findall("vehicle")) + len(root.findall("flow"))
+
+
+def prepare_candidate_nodes(source_nodes: Path, baseline_path: Path) -> int:
+    """Mark baseline signalized junctions as traffic_light in candidate nodes."""
+    source_root = xml_root(source_nodes)
+    baseline_root = xml_root(baseline_path)
+    tls_ids = {
+        junction.get("id")
+        for junction in baseline_root.findall("junction")
+        if junction.get("type") == "traffic_light"
+    }
+    found = set()
+    for node in source_root.findall("node"):
+        if node.get("id") in tls_ids:
+            node.set("type", "traffic_light")
+            found.add(node.get("id"))
+    missing = sorted(tls_ids - found)
+    if missing:
+        raise RuntimeError(
+            "Cannot mark baseline traffic-light junctions because their node "
+            f"definitions are missing: {missing}"
+        )
+    ET.ElementTree(source_root).write(
+        CANDIDATE_NODES, encoding="utf-8", xml_declaration=True
+    )
+    return len(tls_ids)
+
+
+def export_tls_and_connections(baseline_path: Path) -> tuple[int, int]:
+    """Export TLS programs and only external-to-external movements.
+
+    Internal lane IDs (for example :36_1) are generated by netconvert and
+    are not stable between network builds. Re-importing connections that
+    reference those internal edges causes "connection-source edge ... is not
+    known" errors. Therefore retain only movements whose from/to are source
+    road edges; let netconvert regenerate the internal junction connectors.
+    """
+    root = xml_root(baseline_path)
+
+    tls_root = ET.Element("additional")
+    tls_items = root.findall("tlLogic")
+    for item in tls_items:
+        tls_root.append(item)
+
+    connections_root = ET.Element("connections")
+    kept = 0
+    for item in root.findall("connection"):
+        from_edge = item.get("from", "")
+        to_edge = item.get("to", "")
+        if not from_edge or not to_edge:
+            continue
+        if from_edge.startswith(":") or to_edge.startswith(":"):
+            continue
+
+        # 'via' points to a generated internal lane, so it must not be
+        # carried into a fresh netconvert build.
+        connection = ET.Element("connection", dict(item.attrib))
+        connection.attrib.pop("via", None)
+        connections_root.append(connection)
+        kept += 1
+
+    ET.ElementTree(tls_root).write(
+        TLS_LOGIC, encoding="utf-8", xml_declaration=True
+    )
+    ET.ElementTree(connections_root).write(
+        CONNECTIONS, encoding="utf-8", xml_declaration=True
+    )
+    return len(tls_items), kept
+
+
+def main() -> int:
+    OUT.mkdir(parents=True, exist_ok=True)
+
+    netconvert = require_tool("netconvert")
+    sumo = require_tool("sumo")
+
+    baseline_ids = source_edge_ids(BASELINE)
+    candidate_route_count = route_count(ROUTES)
+    baseline_tls = traffic_light_ids(BASELINE)
+    signalized_junction_count = prepare_candidate_nodes(NODES, BASELINE)
+    tls_count, connection_count = export_tls_and_connections(BASELINE)
+
+    # Geometry-aware candidate. The baseline file is not an output target.
+    command = [
+        netconvert,
+        f"--node-files={CANDIDATE_NODES}",
+        f"--edge-files={EDGES}",
+        f"--type-files={TYPES}",
+        f"--tllogic-files={TLS_LOGIC}",
+        f"--connection-files={CONNECTIONS}",
+        f"--output-file={CANDIDATE}",
+        "--no-turnarounds",
+        "--geometry.avoid-overlap",
+        "true",
+        "--roundabouts.guess",
+        "false",
+        "--tls.guess",
+        "false",
+    ]
+    run(command, OUT / "netconvert_candidate.log")
+
+    candidate_ids = source_edge_ids(CANDIDATE)
+    missing_edges = sorted(baseline_ids - candidate_ids)
+    extra_edges = sorted(candidate_ids - baseline_ids)
+    if missing_edges or extra_edges:
+        raise RuntimeError(
+            "Source topology changed: "
+            f"missing={missing_edges[:10]}, extra={extra_edges[:10]}"
+        )
+
+    # Do not accept a candidate that silently drops/replaces traffic lights.
+    candidate_tls = traffic_light_ids(CANDIDATE)
+    if candidate_tls != baseline_tls:
+        missing_tls = sorted(baseline_tls - candidate_tls)
+        extra_tls = sorted(candidate_tls - baseline_tls)
+        raise RuntimeError(
+            "Traffic-light controllers were not preserved. "
+            f"Missing={missing_tls}; extra={extra_tls}. "
+            "Candidate rejected; baseline remains untouched."
+        )
+
+    simulation_command = [
+        sumo,
+        "--net-file", str(CANDIDATE),
+        "--route-files", str(ROUTES),
+        "--begin", "0",
+        "--end", "600",
+        "--step-length", "1",
+        "--time-to-teleport", "-1",
+        "--seed", "1",
+        "--collision.action", "warn",
+        "--collision.check-junctions", "true",
+        "--collision-output", str(COLLISIONS),
+        "--tripinfo-output", str(TRIPINFO),
+        "--no-step-log", "true",
+    ]
+    run(simulation_command, OUT / "sumo_candidate.log")
+
+    collision_count = 0
+    if COLLISIONS.exists() and COLLISIONS.stat().st_size:
+        collision_count = len(xml_root(COLLISIONS).findall(".//collision"))
+
+    accepted = collision_count == 0
+    report = {
+        "candidate": str(CANDIDATE),
+        "baseline_network": str(BASELINE),
+        "baseline_network_preserved": BASELINE.exists(),
+        "source_edges_baseline": len(baseline_ids),
+        "source_edges_candidate": len(candidate_ids),
+        "source_edge_ids_identical": not missing_edges and not extra_edges,
+        "traffic_light_ids_baseline": sorted(baseline_tls),
+        "traffic_light_ids_candidate": sorted(candidate_tls),
+        "signalized_junctions_marked_in_candidate_nodes": signalized_junction_count,
+        "baseline_tls_programs_imported": tls_count,
+        "baseline_connections_imported": connection_count,
+        "traffic_light_ids_identical": baseline_tls == candidate_tls,
+        "route_definitions_tested": candidate_route_count,
+        "junction_collision_count": collision_count,
+        "collision_log": str(COLLISIONS),
+        "accepted": accepted,
+        "acceptance_rule": (
+            "identical source-edge IDs, identical traffic-light controller IDs, "
+            "and zero junction collisions in the unchanged 600-second demand run"
+        ),
+        "note": (
+            "Candidate only. Do not replace the baseline unless accepted is true "
+            "and the generated logs have been reviewed."
+        ),
+    }
+    REPORT.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print(json.dumps(report, indent=2))
+
+    if not accepted:
+        print(
+            "\nREJECTED: candidate still has junction collisions. "
+            "Baseline was not changed.",
+            file=sys.stderr,
+        )
+        return 2
+
+    print("\nACCEPTED: source roads and traffic-light IDs preserved; no junction collisions.")
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except Exception as exc:
+        print(f"REPAIR TEST FAILED: {exc}", file=sys.stderr)
+        raise SystemExit(1)
