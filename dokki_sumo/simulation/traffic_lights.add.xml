@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <additional>
-    <poi id="visual_tls_123" type="Traffic Light 123" x="1063.13" y="775.46" color="1,1,1" layer="100" imgFile="traffic_light_icons/tls_123.png" width="5.5" height="11.0" angle="0" />
-    <poi id="visual_tls_142" type="Traffic Light 142" x="1171.05" y="1139.98" color="1,1,1" layer="100" imgFile="traffic_light_icons/tls_142.png" width="5.5" height="11.0" angle="0" />
-    <poi id="visual_tls_172" type="Traffic Light 172" x="957.93" y="794.38" color="1,1,1" layer="100" imgFile="traffic_light_icons/tls_172.png" width="5.5" height="11.0" angle="0" />
-    <poi id="visual_tls_203" type="Traffic Light 203" x="1488.05" y="664.43" color="1,1,1" layer="100" imgFile="traffic_light_icons/tls_203.png" width="5.5" height="11.0" angle="0" />
-    <poi id="visual_tls_28" type="Traffic Light 28" x="1213.87" y="871.38" color="1,1,1" layer="100" imgFile="traffic_light_icons/tls_28.png" width="5.5" height="11.0" angle="0" />
-    <poi id="visual_tls_31" type="Traffic Light 31" x="1563.54" y="962.30" color="1,1,1" layer="100" imgFile="traffic_light_icons/tls_31.png" width="5.5" height="11.0" angle="0" />
+  <poi id="visual_tls_123" type="Traffic Light 123" x="1074.39" y="775.97" color="1,1,1" layer="100" imgFile="traffic_light_icons/traffic_signal_transparent.png" width="8" height="8" angle="0" />
+  <poi id="visual_tls_142" type="Traffic Light 142" x="1164.68" y="1142.48" color="1,1,1" layer="100" imgFile="traffic_light_icons/traffic_signal_transparent.png" width="8" height="8" angle="0" />
+  <poi id="visual_tls_172" type="Traffic Light 172" x="957.54" y="782.17" color="1,1,1" layer="100" imgFile="traffic_light_icons/traffic_signal_transparent.png" width="8" height="8" angle="0" />
+  <poi id="visual_tls_203" type="Traffic Light 203" x="1495.50" y="659.82" color="1,1,1" layer="100" imgFile="traffic_light_icons/traffic_signal_transparent.png" width="8" height="8" angle="0" />
+  <poi id="visual_tls_28" type="Traffic Light 28" x="1214.45" y="868.95" color="1,1,1" layer="100" imgFile="traffic_light_icons/traffic_signal_transparent.png" width="8" height="8" angle="0" />
+  <poi id="visual_tls_31" type="Traffic Light 31" x="1555.62" y="974.79" color="1,1,1" layer="100" imgFile="traffic_light_icons/traffic_signal_transparent.png" width="8" height="8" angle="0" />
 </additional>
