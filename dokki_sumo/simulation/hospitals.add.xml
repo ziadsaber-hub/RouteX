@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<additional>
+  <poi id="hospital_image_65" x="579.73" y="900.89" imgFile="C:/Users/LOQ/OneDrive/Desktop/RouteX/dokki_sumo/simulation/hospital.png" width="10" height="10" layer="100" />
+  <poi id="hospital_name_65" type="Dar El Oyoun Hospital" x="579.73" y="894.89" color="0,0,0,0" layer="101" />
+  <poi id="hospital_image_168" x="1369.35" y="718.10" imgFile="C:/Users/LOQ/OneDrive/Desktop/RouteX/dokki_sumo/simulation/hospital.png" width="10" height="10" layer="100" />
+  <poi id="hospital_name_168" type="6th of October Hospital" x="1369.35" y="712.10" color="0,0,0,0" layer="101" />
+  <poi id="hospital_image_184" x="1120.21" y="322.72" imgFile="C:/Users/LOQ/OneDrive/Desktop/RouteX/dokki_sumo/simulation/hospital.png" width="10" height="10" layer="100" />
+  <poi id="hospital_name_184" type="Millennium Hospital" x="1120.21" y="316.72" color="0,0,0,0" layer="101" />
+  <poi id="hospital_image_95" x="889.28" y="1074.93" imgFile="C:/Users/LOQ/OneDrive/Desktop/RouteX/dokki_sumo/simulation/hospital.png" width="10" height="10" layer="100" />
+  <poi id="hospital_name_95" type="Ibn Sina Specialized Hospital" x="889.28" y="1068.93" color="0,0,0,0" layer="101" />
+</additional>
