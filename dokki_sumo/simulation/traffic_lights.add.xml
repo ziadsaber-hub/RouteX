@@ -1,9 +1,31 @@
 <?xml version='1.0' encoding='utf-8'?>
 <additional>
-  <poi id="visual_tls_123" type="Traffic Light 123" x="1074.39" y="775.97" color="1,1,1" layer="100" imgFile="icons/traffic_red.png" width="6" height="12" angle="0" />
-  <poi id="visual_tls_142" type="Traffic Light 142" x="1164.68" y="1142.48" color="1,1,1" layer="100" imgFile="icons/traffic_red.png" width="6" height="12" angle="0" />
-  <poi id="visual_tls_172" type="Traffic Light 172" x="957.54" y="782.17" color="1,1,1" layer="100" imgFile="icons/traffic_red.png" width="6" height="12" angle="0" />
-  <poi id="visual_tls_203" type="Traffic Light 203" x="1495.50" y="659.82" color="1,1,1" layer="100" imgFile="icons/traffic_red.png" width="6" height="12" angle="0" />
-  <poi id="visual_tls_28" type="Traffic Light 28" x="1214.45" y="868.95" color="1,1,1" layer="100" imgFile="icons/traffic_red.png" width="6" height="12" angle="0" />
-  <poi id="visual_tls_31" type="Traffic Light 31" x="1555.62" y="974.79" color="1,1,1" layer="100" imgFile="icons/traffic_red.png" width="6" height="12" angle="0" />
+    <poi id="visual_tls_123_e121to123k0" x="1059.737" y="785.611" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_123_e124to123k0" x="1072.823" y="759.257" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_123_e125to123k0" x="1079.305" y="771.172" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_123_e172to123k0" x="1036.642" y="764.808" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_123_e193to123k0" x="1041.163" y="761.105" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+
+    <poi id="visual_tls_142_e140to142k0" x="1173.259" y="1121.812" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_142_e16to142k0" x="1176.298" y="1122.832" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_142_e79to142k0" x="1152.158" y="1149.081" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_142_e89to142k0" x="1149.911" y="1132.849" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+
+    <poi id="visual_tls_172_e123to172k0" x="994.969" y="793.856" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_172_e192to172k0" x="938.115" y="777.402" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_172_e193to172k0" x="959.090" y="792.325" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_172_e193to172k1" x="967.853" y="771.229" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_172_e39to172k0" x="931.136" y="791.485" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+
+    <poi id="visual_tls_203_e168to203k0" x="1467.396" y="661.669" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_203_e201to203k0" x="1505.260" y="668.349" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_203_e215to203k0" x="1485.828" y="681.192" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+
+    <poi id="visual_tls_28_e122to28k0" x="1188.822" y="853.605" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_28_e125to28k0" x="1207.692" y="839.433" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+
+    <poi id="visual_tls_31_e147to31k0" x="1559.483" y="972.152" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_31_e150to31k0" x="1571.235" y="971.894" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_31_e215to31k0" x="1537.017" y="937.544" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
+    <poi id="visual_tls_31_e29to31k0" x="1563.549" y="935.735" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0" />
 </additional>
