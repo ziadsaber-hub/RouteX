@@ -1,0 +1,13 @@
+route_id,scenario_id,scenario,ambulance_completed,ambulance_travel_time_s,delta_vs_route_S2_s,percent_change_vs_route_S2,ambulance_waiting_time_s,ambulance_distance_m,route_update_count,ambulance_collision_count,background_traffic_reroutes
+Route 1,S1,normal,True,325.0,-637.0,-66.216,11.0,2864.52,0,0,0
+Route 1,S2,moderate,True,962.0,0.0,0.0,562.0,2864.52,0,0,0
+Route 1,S3,heavy,True,1582.0,620.0,64.449,1136.0,2864.52,0,0,0
+Route 1,S4,localized_congestion,True,1283.0,321.0,33.368,564.0,2864.52,0,0,0
+Route 1,S5,road_closure,True,508.0,-454.0,-47.193,153.0,2965.94,1,0,26
+Route 1,S6,combined,True,542.0,-420.0,-43.659,155.0,3342.4,1,0,26
+Route 2,S1,normal,True,288.0,1.0,0.348,41.0,2647.26,0,0,0
+Route 2,S2,moderate,True,287.0,0.0,0.0,41.0,2647.26,0,0,0
+Route 2,S3,heavy,True,284.0,-3.0,-1.045,42.0,2647.26,0,0,0
+Route 2,S4,localized_congestion,True,554.0,267.0,93.031,99.0,2647.26,0,0,0
+Route 2,S5,road_closure,True,398.0,111.0,38.676,41.0,3024.36,1,0,0
+Route 2,S6,combined,True,421.0,134.0,46.69,54.0,3376.33,1,0,0

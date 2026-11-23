@@ -1,0 +1,2 @@
+scenario_id,scenario,demand_file,demand_vehicles,completed_vehicles,unfinished_vehicles,vehicles_arrived_by_ambulance_stop,vehicles_not_arrived_by_ambulance_stop,average_trip_duration_s,average_waiting_time_s,average_time_loss_s,average_trip_distance_m,average_trip_speed_mps
+S5,road_closure,moderate.rou.xml,400,207,193,207,193,229.6280193236715,38.99516908212561,67.10729468599034,1601.921884057971,7.434711739044589

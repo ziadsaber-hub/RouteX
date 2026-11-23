@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<additional>
+<poi id="visual_tls_123_e121to123k0" x="1055.737" y="785.611" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_123_e124to123k0" x="1076.823" y="756.257" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_123_e125to123k0" x="1079.305" y="775.172" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_123_e172to123k0" x="1032.642" y="771.808" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_123_e193to123k0" x="1037.163" y="754.105" imgFile="icons/traffic_red.png" width="0" height="0" layer="1000" angle="0"/>
+<poi id="visual_tls_142_e140to142k0" x="1182.259" y="1121.812" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_142_e16to142k0" x="1189.298" y="1122.832" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_142_e79to142k0" x="1148.158" y="1147.081" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_142_e89to142k0" x="1145.911" y="1128.849" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_172_e123to172k0" x="993.839" y="805.006" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_172_e192to172k0" x="940.455" y="771.592" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_172_e193to172k0" x="961.723" y="802.285" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_172_e193to172k1" x="975.703" y="767.119" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_172_e39to172k0" x="926.266" y="784.625" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_203_e168to203k0" x="1467.396" y="658.669" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_203_e201to203k0" x="1505.260" y="671.349" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_203_e215to203k0" x="1485.828" y="681.192" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_28_e122to28k0" x="1188.822" y="850.605" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_28_e125to28k0" x="1210.692" y="839.433" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_31_e147to31k0" x="1559.483" y="972.152" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_31_e150to31k0" x="1571.235" y="975.894" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_31_e215to31k0" x="1532.017" y="932.544" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+<poi id="visual_tls_31_e29to31k0" x="1563.549" y="929.735" imgFile="icons/traffic_red.png" width="4.5" height="9" layer="1000" angle="0"/>
+</additional>

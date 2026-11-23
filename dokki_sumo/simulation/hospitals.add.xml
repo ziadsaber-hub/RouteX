@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<additional>
+    <!-- Visual-only hospital icons. Road-network hospital nodes are unchanged.
+         No separate label POIs are used, preventing the black-dot markers. -->
+
+    <poi id="hospital_icon_65" x="582.2" y="898.98"
+         imgFile="icons/hospital.png" width="8" height="8" layer="100" />
+
+    <!-- Hospital 168 moved off the diagonal road. -->
+    <poi id="hospital_icon_168" x="1382.7" y="714.2"
+         imgFile="icons/hospital.png" width="8" height="8" layer="100" />
+
+    <poi id="hospital_icon_184" x="1118.5" y="328.44"
+         imgFile="icons/hospital.png" width="8" height="8" layer="100" />
+
+    <!-- Hospital 95 moved farther from the road. -->
+    <poi id="hospital_icon_95" x="902.1" y="1077.4"
+         imgFile="icons/hospital.png" width="8" height="8" layer="100" />
+</additional>

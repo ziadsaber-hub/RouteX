@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-11-23 03:46:26.952130 by Eclipse SUMO tileGet.py v1_28_0+0000-daf91b55789
+<configuration>
+    <prefix value="dokki_osm"/>
+    <tiles value="10"/>
+    <output-dir value=".\dokki_sumo\simulation"/>
+    <decals-file value="osm_background.settings.xml"/>
+    <net value=".\dokki_sumo\network\dokki.net.xml"/>
+    <url value="cartodb_light_all"/>
+</configuration>
+-->
+
+<viewsettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/viewsettings_file.xsd">
