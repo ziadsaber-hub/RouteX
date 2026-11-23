@@ -1,0 +1,40 @@
+{
+  "status": "validated",
+  "validated_combinations": 12,
+  "route_1": {
+    "origin": "181",
+    "destination": "hospital_168",
+    "scenarios": [
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "S5",
+      "S6"
+    ],
+    "source": "dokki_sumo/experiments/scenario_0/outputs/all_scenarios_summary.csv and S1-S6 folders",
+    "closure_policy": "stop-triggered reactive recovery"
+  },
+  "route_2": {
+    "origin": "4",
+    "destination": "hospital_95",
+    "scenarios": [
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "S5",
+      "S6"
+    ],
+    "s1_s4_source": "outputs/pair_4_to_hospital_95_final",
+    "s5_s6_source": "outputs/pair2_activation_reroute_test",
+    "closure_policy": "immediate reroute after disruption activation"
+  },
+  "ambulance_collisions_all_runs": 0,
+  "notes": [
+    "Route 2 old S5/S6 failed outputs intentionally excluded.",
+    "Route 2 S5/S6 successful activation-reroute outputs are included.",
+    "Route 1 S5/S6 each report 26 background-traffic reroutes.",
+    "Route 2 ordinary traffic is not rerouted or teleported."
+  ]
+}

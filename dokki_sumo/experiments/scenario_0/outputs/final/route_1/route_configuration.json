@@ -1,0 +1,68 @@
+{
+  "route_name": "Route 1",
+  "origin": "181",
+  "destination": "hospital_168",
+  "reference_route_edges": [
+    "e181to158k0",
+    "e158to115k0",
+    "e115to33k0",
+    "e33to113k0",
+    "e113to112k0",
+    "e112to110k0",
+    "e110to105k0",
+    "e105to191k0",
+    "e191to189k0",
+    "e189to190k0",
+    "e190to196k0",
+    "e196to192k0",
+    "e192to172k0",
+    "e172to121k0",
+    "e121to122k0",
+    "e122to28k0",
+    "e28to214k0",
+    "e214to168k0",
+    "e168to203k0",
+    "e203to216k0",
+    "e216to167k0",
+    "e167to168k0__to_hospital_168"
+  ],
+  "reference_route_edge_count": 22,
+  "congestion_speed_factor": 0.25,
+  "congestion_edges": [
+    "e28to214k0",
+    "e214to168k0",
+    "e168to203k0",
+    "e203to216k0"
+  ],
+  "route_closures": [
+    "e196to192k0",
+    "e192to172k0"
+  ],
+  "nearby_closures": [
+    "e128to196k0",
+    "e172to193k1"
+  ],
+  "all_closures": [
+    "e196to192k0",
+    "e192to172k0",
+    "e128to196k0",
+    "e172to193k1"
+  ],
+  "closure_reroute_policy": "stop-triggered reactive recovery; 125 m lookahead; 3 s stop trigger",
+  "background_traffic_closure_response": "background vehicles rerouted at 5 s checks; 26 reroutes in S5 and S6",
+  "seed": 1,
+  "step_length_s": 1,
+  "disruption_activation_s": 610,
+  "virtual_stop_line": {
+    "tls_id": "172",
+    "edge_id": "e39to172k0",
+    "stop_pos_m": 90,
+    "controlled_link_indices": [
+      16,
+      17,
+      18,
+      19
+    ],
+    "stop_duration_s": 1000000
+  }
+}
