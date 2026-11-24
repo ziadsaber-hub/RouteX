@@ -1,0 +1,19 @@
+time_s,event,closed_edges,congested_edges,edge_id,from_lane,to_lane,leader_id,leader_gap_m,leader_speed_mps,remaining_distance_m,lane_change_state,result,candidate_lane,next_route_edge,lane_index
+610.0,disruption_activated,,e200to201k0 e201to29k0 e29to31k0 e31to144k0,,,,,,,,,,,,
+724.0,ambulance_overtake_requested,,,e212to213k0,2,1,356,0.929,0.001,39.44,model=9;traci=9,TraCI_request_sent_collision_avoidance_mode_256,,,
+725.0,ambulance_overtake_started,,,e212to213k0,2,1,356,,,,,lane_change_completed,,,
+729.0,ambulance_overtake_return_requested,,,e212to213k0,1,2,356,,,19.65,,return_to_route_lane_requested,,,
+730.0,ambulance_overtake_cancelled,,,e212to213k0,,,,,,10.47,,request_cancelled_before_edge_end,,,
+748.0,ambulance_overtake_lane_incompatible,,,e215to31k0,,,,,,,,lane_has_no_connection_to_next_route_edge,0,e31to144k0,
+748.0,ambulance_overtake_requested,,,e215to31k0,1,2,226,3.538,0.0,17.1,model=9994;traci=9994,TraCI_request_sent_collision_avoidance_mode_256,,,
+757.0,ambulance_overtake_request_failed,,,e215to31k0,1,2,226,,,,model=9994;traci=10122,SUMO_did_not_complete_lane_change,,,
+758.0,ambulance_overtake_lane_incompatible,,,e215to31k0,,,,,,,,lane_has_no_connection_to_next_route_edge,0,e31to144k0,
+758.0,ambulance_overtake_no_lane_available,,,e215to31k0,,,226,0.548,,14.11,,all_lanes_already_attempted,,,1
+768.0,ambulance_overtake_lane_incompatible,,,e215to31k0,,,,,,,,lane_has_no_connection_to_next_route_edge,0,e31to144k0,
+768.0,ambulance_overtake_requested,,,e215to31k0,1,2,226,0.548,0.0,14.11,model=9994;traci=9994,TraCI_request_sent_collision_avoidance_mode_256,,,
+777.0,ambulance_overtake_request_failed,,,e215to31k0,1,2,226,,,,model=9994;traci=10122,SUMO_did_not_complete_lane_change,,,
+778.0,ambulance_overtake_lane_incompatible,,,e215to31k0,,,,,,,,lane_has_no_connection_to_next_route_edge,0,e31to144k0,
+778.0,ambulance_overtake_no_lane_available,,,e215to31k0,,,226,0.548,,14.11,,all_lanes_already_attempted,,,1
+788.0,ambulance_overtake_lane_incompatible,,,e215to31k0,,,,,,,,lane_has_no_connection_to_next_route_edge,0,e31to144k0,
+788.0,ambulance_overtake_requested,,,e215to31k0,1,2,226,0.548,0.0,14.11,model=9994;traci=9994,TraCI_request_sent_collision_avoidance_mode_256,,,
+794.0,ambulance_overtake_cancelled,,,e215to31k0,,,,,,9.89,,request_cancelled_before_edge_end,,,
