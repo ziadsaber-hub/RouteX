@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-11-24T20:58:21.619825+02:00 by Eclipse SUMO sumo 1.28.0
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\network\dokki.net.xml"/>
+        <route-files value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\experiments\scenario_0\demand\normal.rou.xml"/>
+        <additional-files value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\simulation\traffic_lights.add.xml,C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\experiments\scenario_0\config\ambulance.add.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\experiments\scenario_0\outputs\eval_v2_s3_r1\S1_normal\traffic_tripinfo.xml"/>
+        <collision-output value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\experiments\scenario_0\outputs\eval_v2_s3_r1\S1_normal\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <step-length value="1"/>
+    </time>
+
+    <processing>
+        <collision.action value="warn"/>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <duration-log.disable value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="51887"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="3"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<collisions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/collision_file.xsd">
+    <collision time="106.00" type="junction" lane=":36_3_0" pos="2.07" collider="8" victim="12" colliderType="DEFAULT_VEHTYPE" victimType="DEFAULT_VEHTYPE" colliderSpeed="2.17" victimSpeed="2.73" colliderFront="635.77,1025.89" colliderBack="634.67,1030.58" victimFront="636.45,1030.02" victimBack="633.80,1027.50"/>
+    <collision time="529.00" type="junction" lane=":36_8_0" pos="2.45" collider="146" victim="106" colliderType="DEFAULT_VEHTYPE" victimType="DEFAULT_VEHTYPE" colliderSpeed="2.56" victimSpeed="6.30" colliderFront="635.30,1023.60" colliderBack="638.31,1022.04" victimFront="636.84,1021.31" victimBack="634.98,1025.68"/>
+</collisions>

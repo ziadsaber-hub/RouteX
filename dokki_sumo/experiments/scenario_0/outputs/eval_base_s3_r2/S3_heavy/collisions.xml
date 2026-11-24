@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-11-24T20:57:30.927488+02:00 by Eclipse SUMO sumo 1.28.0
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\network\dokki.net.xml"/>
+        <route-files value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\experiments\scenario_0\demand\heavy.rou.xml"/>
+        <additional-files value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\simulation\traffic_lights.add.xml,C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\experiments\scenario_0\config\ambulance.add.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\experiments\scenario_0\outputs\eval_base_s3_r2\S3_heavy\traffic_tripinfo.xml"/>
+        <collision-output value="C:\Users\Zeyad\Desktop\RouteX\dokki_sumo\experiments\scenario_0\outputs\eval_base_s3_r2\S3_heavy\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <step-length value="1"/>
+    </time>
+
+    <processing>
+        <collision.action value="warn"/>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <duration-log.disable value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="51877"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="3"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<collisions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/collision_file.xsd">
+    <collision time="249.00" type="junction" lane=":78_3_0" pos="3.41" collider="213" victim="41" colliderType="DEFAULT_VEHTYPE" victimType="DEFAULT_VEHTYPE" colliderSpeed="4.13" victimSpeed="7.42" colliderFront="948.64,1241.88" colliderBack="943.85,1241.18" victimFront="944.48,1242.89" victimBack="949.31,1243.60"/>
+    <collision time="453.00" type="junction" lane=":36_4_0" pos="0.26" collider="402" victim="363" colliderType="DEFAULT_VEHTYPE" victimType="DEFAULT_VEHTYPE" colliderSpeed="0.37" victimSpeed="3.29" colliderFront="635.41,1027.66" colliderBack="634.28,1032.23" victimFront="636.29,1030.68" victimBack="634.49,1027.69"/>
+    <collision time="481.00" type="junction" lane=":36_4_0" pos="4.86" collider="411" victim="402" colliderType="DEFAULT_VEHTYPE" victimType="DEFAULT_VEHTYPE" colliderSpeed="8.57" victimSpeed="2.99" colliderFront="637.87,1023.95" colliderBack="635.27,1028.03" victimFront="636.52,1029.71" victimBack="633.68,1027.78"/>
+    <collision time="621.00" type="junction" lane=":78_3_0" pos="2.00" collider="545" victim="366" colliderType="DEFAULT_VEHTYPE" victimType="DEFAULT_VEHTYPE" colliderSpeed="2.10" victimSpeed="8.87" colliderFront="947.25,1241.68" colliderBack="942.59,1241.00" victimFront="941.48,1242.57" victimBack="945.65,1243.06"/>
+    <collision time="671.00" type="junction" lane=":36_8_0" pos="1.32" collider="597" victim="469" colliderType="DEFAULT_VEHTYPE" victimType="DEFAULT_VEHTYPE" colliderSpeed="1.42" victimSpeed="5.95" colliderFront="636.39,1023.88" colliderBack="638.55,1021.01" victimFront="636.94,1020.89" victimBack="635.33,1025.38"/>
+    <collision time="678.00" type="junction" lane=":36_3_0" pos="1.77" collider="556" victim="181" colliderType="DEFAULT_VEHTYPE" victimType="DEFAULT_VEHTYPE" colliderSpeed="1.88" victimSpeed="2.48" colliderFront="635.71,1026.17" colliderBack="634.61,1030.85" victimFront="636.53,1029.68" victimBack="633.68,1027.80"/>
+    <collision time="685.00" type="junction" lane=":36_3_0" pos="1.99" collider="581" victim="462" colliderType="DEFAULT_VEHTYPE" victimType="DEFAULT_VEHTYPE" colliderSpeed="2.10" victimSpeed="2.28" colliderFront="635.75,1025.96" colliderBack="634.65,1030.66" victimFront="636.67,1029.08" victimBack="633.52,1028.45"/>
+</collisions>

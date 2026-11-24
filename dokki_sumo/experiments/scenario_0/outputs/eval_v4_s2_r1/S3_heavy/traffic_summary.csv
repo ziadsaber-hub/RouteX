@@ -1,0 +1,2 @@
+scenario_id,scenario,demand_file,demand_vehicles,completed_vehicles,unfinished_vehicles,vehicles_arrived_by_ambulance_stop,vehicles_not_arrived_by_ambulance_stop,average_trip_duration_s,average_waiting_time_s,average_time_loss_s,average_trip_distance_m,average_trip_speed_mps
+S3,heavy,heavy.rou.xml,600,351,249,351,249,281.6182336182336,70.10826210826211,109.04735042735042,1693.9716524216524,6.804487610910636

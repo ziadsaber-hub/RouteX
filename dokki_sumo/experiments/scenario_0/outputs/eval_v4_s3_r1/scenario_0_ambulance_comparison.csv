@@ -1,0 +1,7 @@
+scenario_id,scenario,ambulance_completed,ambulance_travel_time_s,delta_vs_fresh_S2_s,percent_change_vs_fresh_S2,route_update_count,ambulance_collision_count,background_traffic_reroutes
+S1,normal,True,327.0,-84.0,-20.437956204379564,0,0,0
+S2,moderate,True,411.0,0.0,0.0,1,0,0
+S3,heavy,True,849.0,438.0,106.56934306569343,11,0,0
+S4,localized_congestion,True,449.0,38.0,9.245742092457421,3,0,0
+S5,road_closure,True,398.0,-13.0,-3.1630170316301705,2,0,26
+S6,combined,True,445.0,34.0,8.27250608272506,1,0,26

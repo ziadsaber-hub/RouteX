@@ -1,0 +1,7 @@
+scenario_id,scenario,origin,destination,ambulance_completed,ambulance_travel_time_s,delta_vs_S2_s,percent_change_vs_S2,route_update_count,ambulance_collision_count
+S1,normal,4,hospital_95,True,380.0,7.0,1.876675603217158,1,0
+S2,moderate,4,hospital_95,True,373.0,0.0,0.0,2,0
+S3,heavy,4,hospital_95,True,373.0,0.0,0.0,1,0
+S4,localized_congestion,4,hospital_95,True,554.0,181.0,48.525469168900806,12,0
+S5,road_closure,4,hospital_95,True,334.0,-39.0,-10.455764075067025,1,0
+S6,combined,4,hospital_95,True,333.0,-40.0,-10.723860589812332,1,0

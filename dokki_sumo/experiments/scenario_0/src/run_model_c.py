@@ -1,6 +1,7 @@
-﻿# Model C v3 launcher, both routes. Run from the src folder:
-#   python run_model_c.py --route 1
-#   python run_model_c.py --route 2
+﻿# Model C launcher, both routes. Run from the src folder:
+#   python run_model_c.py --route 1 [--variant v4] [--seed N] [--output-tag NAME]
+#   python run_model_c.py --route 2 [--variant v4] [--seed N] [--output-tag NAME]
+# --variant v2 = items 1-5 below; v4 (default) adds item 6.
 # v1 algorithm (penalty alternatives, live rerouting, forced closure reroute) plus:
 #  1) Travel-time estimate: blend of free-flow speed and observed mean speed (from the
 #     Route 2 Model C variant) instead of SUMO's raw edge travel time (less noise).
@@ -12,9 +13,10 @@
 #     current lane.
 #  5) Safety: an unfinished overtake lane-change request is cancelled before the edge end
 #     and the normal (safe) lane-change mode is restored.
-#  6) v3: queues count - on edges with halted vehicles the cost is at least SUMO's own
-#     edge travel time (capped at 10x free flow), and a stuck ambulance (waiting >= 15 s)
-#     may reroute at once from any legal lane.
+#  6) v4 blocked-movement rule: if the ambulance has waited >= 15 s, the turn it is
+#     waiting for is expected to block it for as long again (its cost += waiting time),
+#     the saving no longer needs a second confirmation, and turns from adjacent lanes
+#     are allowed. Nothing else changes.
 # No route is hard-coded or calibrated per scenario.
 import argparse
 import importlib
@@ -24,9 +26,11 @@ import networkx as nx
 
 ap = argparse.ArgumentParser(add_help=False)
 ap.add_argument("--route", choices=["1", "2"], required=True)
+ap.add_argument("--variant", choices=["v2", "v4"], default="v4")
 known, rest = ap.parse_known_args()
 if "--output-tag" not in rest:
-    rest += ["--output-tag", f"model_c_v3_route_{known.route}"]
+    rest += ["--output-tag", f"model_c_{known.variant}_route_{known.route}"]
+V4 = known.variant == "v4"
 import xml.etree.ElementTree as ET
 sys.argv = [sys.argv[0]] + rest
 
@@ -36,8 +40,7 @@ INF = float("inf")
 V2 = {"confirm_checks": 2, "max_step_length_ratio": 1.25, "max_trip_length_ratio": 1.30,
       "minimum_saving_s": 16.0, "minimum_saving_fraction": 0.12,
       "observed_speed_weight": 0.65, "minimum_speed_fraction": 0.2,
-      "ambulance_max_speed_mps": 16.67, "lane_change_lookahead_m": 70.0,
-      "stuck_waiting_s": 15.0, "queue_cost_cap_factor": 10.0}
+      "ambulance_max_speed_mps": 16.67, "lane_change_lookahead_m": 70.0}
 
 if known.route == "2":
     OLD = ('        ambulance_route = list(PAIR2_REFERENCE_ROUTE)\n'
@@ -75,15 +78,7 @@ def costs(self, closed):
                 speed = (1 - w) * free + w * obs
         except Exception:
             pass
-        cost = d["length"] / speed
-        try:
-            if int(T.edge.getLastStepHaltingNumber(e)) > 0:      # a queue: trust SUMO's delay
-                tt = float(T.edge.getTraveltime(e))
-                if tt > 0:
-                    cost = max(cost, min(tt, cfg["queue_cost_cap_factor"] * d["length"] / free))
-        except Exception:
-            pass
-        out[e] = max(cost, cfg["min_edge_travel_time_s"])
+        out[e] = max(d["length"] / speed, cfg["min_edge_travel_time_s"])
     return out
 
 
@@ -163,20 +158,26 @@ def step(self, timestamp, closed_edges, edge_data, scenario_id,
     except Exception:
         frac = 1.0
 
-    try:
-        stuck = float(T.vehicle.getWaitingTime(self.amb)) >= cfg["stuck_waiting_s"]
-    except Exception:
-        stuck = False
+    waited = 0.0
+    if V4:
+        try:
+            waited = float(T.vehicle.getWaitingTime(self.amb))
+        except Exception:
+            waited = 0.0
+    stuck = V4 and waited >= 15.0
     self.lane_rule = None
     try:
         left = float(T.lane.getLength(T.vehicle.getLaneID(self.amb))) - float(T.vehicle.getLanePosition(self.amb))
-        if left < cfg["lane_change_lookahead_m"] and not stuck:
+        if left < cfg["lane_change_lookahead_m"]:
             li = int(T.vehicle.getLaneIndex(self.amb))
-            self.lane_rule = (road, {t for (f, l, t) in lane_moves(self) if f == road and l == li})
+            lanes = {li - 1, li, li + 1} if stuck else {li}
+            self.lane_rule = (road, {t for (f, l, t) in lane_moves(self) if f == road and l in lanes})
     except Exception:
         self.lane_rule = None
 
     costs = self.costs(closed)
+    if stuck and len(remaining) > 1 and remaining[1] in costs:
+        costs[remaining[1]] += waited          # the blocked turn
     blocked = [e for e in remaining[1:] if e in closed]
     cur_cost = INF if blocked else self.route_cost(remaining, costs, frac)
     best = self.search(road, dst, costs, closed)
@@ -218,7 +219,8 @@ def step(self, timestamp, closed_edges, edge_data, scenario_id,
             return
         if timestamp - self.last_reroute < cfg["min_seconds_between_reroutes"]:
             return
-        reason, trig, thr = "threshold_exceeded", round(saving, 4), round(need, 4)
+        reason = "blocked_movement" if stuck else "threshold_exceeded"
+        trig, thr = round(saving, 4), round(need, 4)
 
     new_cost = self.route_cost(best, costs, frac)
     alts = self.alternatives(road, dst, costs, closed, best, new_cost, frac)

@@ -1,0 +1,5 @@
+time_s,event,edge_id,from_lane,to_lane,leader_id,leader_gap_m,leader_speed_mps,remaining_distance_m,lane_change_state,result,returned_lane
+721.0,ambulance_overtake_requested,e29to31k0,1,0,380,1.626,1.437,16.19,model=9;traci=9,TraCI_request_sent_collision_avoidance_mode_256,
+722.0,ambulance_overtake_started,e29to31k0,1,0,380,,,,,lane_change_completed,
+764.0,ambulance_overtake_return_requested,e29to31k0,0,1,380,,,8.5,,return_to_route_lane_requested,
+765.0,ambulance_overtake_completed,e29to31k0,,,380,,,,,returned_to_route_lane,1

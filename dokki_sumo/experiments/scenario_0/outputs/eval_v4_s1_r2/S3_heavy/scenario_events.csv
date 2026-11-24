@@ -1,0 +1,2 @@
+time_s,event,trigger_edge,old_route_edges,new_route_edges,result
+760.0,model_c_reroute,e29to31k0,e29to31k0 e31to144k0 e144to143k0 e143to146k0 e146to145k0 e145to16k0 e16to142k0 e142to151k0 e151to152k0 e152to153k0 e153to86k0 e86to95k0 e95to89k0__to_hospital_95,e29to31k0 e31to147k0 e147to20k0 e20to144k0 e144to143k0 e143to146k0 e146to145k0 e145to16k0 e16to142k0 e142to151k0 e151to152k0 e152to153k0 e153to86k0 e86to95k0 e95to89k0__to_hospital_95,success

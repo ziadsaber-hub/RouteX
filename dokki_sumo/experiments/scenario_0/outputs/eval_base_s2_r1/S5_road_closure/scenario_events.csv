@@ -1,0 +1,4 @@
+time_s,event,closed_edges,congested_edges,rerouted_vehicle_count,failed_vehicle_count,result,trigger_edge,distance_to_closure_m,stopped_duration_s,old_route_edges,new_route_edges
+610.0,disruption_activated,e196to192k0 e192to172k0 e128to196k0 e172to193k1,,,,,,,,,
+610.0,background_traffic_closure_rerouting,,,25,0,completed,,,,,
+757.0,ambulance_reactive_reroute,,,,,success,e196to192k0,0.0,3.0,e181to158k0 e158to115k0 e115to33k0 e33to113k0 e113to112k0 e112to110k0 e110to105k0 e105to191k0 e191to189k0 e189to190k0 e190to196k0 e196to192k0 e192to172k0 e172to121k0 e121to122k0 e122to28k0 e28to214k0 e214to168k0 e168to203k0 e203to216k0 e216to167k0 e167to168k0__to_hospital_168,e181to158k0 e158to115k0 e115to33k0 e33to113k0 e113to112k0 e112to110k0 e110to105k0 e105to191k0 e191to189k0 e189to190k0 e190to196k0 e196to195k0 e195to194k0 e194to193k1 e193to172k1 e172to121k0 e121to122k0 e122to28k0 e28to214k0 e214to168k0 e168to203k0 e203to216k0 e216to167k0 e167to168k0__to_hospital_168

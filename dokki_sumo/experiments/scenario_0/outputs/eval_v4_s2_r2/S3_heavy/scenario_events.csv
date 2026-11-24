@@ -1,0 +1,8 @@
+time_s,event,trigger_edge,old_route_edges,new_route_edges,result,edge_id,candidate_lane,next_route_edge,from_lane,to_lane,leader_id,leader_gap_m,leader_speed_mps,remaining_distance_m,lane_change_state
+762.0,model_c_reroute,e29to31k0,e29to31k0 e31to144k0 e144to143k0 e143to146k0 e146to145k0 e145to16k0 e16to142k0 e142to151k0 e151to152k0 e152to153k0 e153to86k0 e86to95k0 e95to89k0__to_hospital_95,e29to31k0 e31to147k0 e147to20k0 e20to144k0 e144to143k0 e143to146k0 e146to145k0 e145to16k0 e16to142k0 e142to151k0 e151to152k0 e152to153k0 e153to86k0 e86to95k0 e95to89k0__to_hospital_95,success,,,,,,,,,,
+858.0,ambulance_overtake_lane_incompatible,,,,lane_has_no_connection_to_next_route_edge,e16to142k0,0,e142to151k0,,,,,,,
+858.0,ambulance_overtake_lane_incompatible,,,,lane_has_no_connection_to_next_route_edge,e16to142k0,3,e142to151k0,,,,,,,
+858.0,ambulance_overtake_requested,,,,TraCI_request_sent_collision_avoidance_mode_256,e16to142k0,,,1,2,388,0.18,0.0,23.68,model=0;traci=0
+859.0,ambulance_overtake_started,,,,lane_change_completed,e16to142k0,,,1,2,388,,,,
+907.0,ambulance_overtake_return_requested,,,,return_to_route_lane_requested,e16to142k0,,,2,1,388,,,11.43,
+908.0,ambulance_overtake_cancelled,,,,request_cancelled_before_edge_end,e16to142k0,,,,,,,,4.34,
