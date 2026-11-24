@@ -1,0 +1,9 @@
+edge_id,role,from_node,to_node,length_m,original_speed_limit_mps,applied_speed_limit_mps
+e128to196k0,ambulance_route_closure,128,196,104.11,8.33,8.33
+e112to111k0,ambulance_route_closure,112,111,185.38,8.33,8.33
+e128to190k0,nearby_alternative_closure,128,190,75.07,8.33,8.33
+e111to110k0,nearby_alternative_closure,111,110,81.68,8.33,8.33
+e28to214k0,localized_congestion,28,214,89.92,11.11,2.7775
+e214to168k0,localized_congestion,214,168,130.27,11.11,2.7775
+e168to203k0,localized_congestion,168,203,126.23,8.33,2.0825
+e203to216k0,localized_congestion,203,216,303.23,8.33,2.0825
