@@ -1,0 +1,11 @@
+time_s,event,closed_edges,congested_edges,trigger_edge,old_route_edges,new_route_edges,result,edge_id,from_lane,to_lane,leader_id,leader_gap_m,leader_speed_mps,remaining_distance_m,lane_change_state,new_edge_id
+610.0,disruption_activated,,e200to201k0 e201to29k0 e29to31k0 e31to144k0,,,,,,,,,,,,,
+611.0,model_c_reroute,,,e4to6k0,e4to6k0 e6to21k0 e21to22k0 e22to24k0 e24to200k0 e200to201k0 e201to29k0 e29to31k0 e31to144k0 e144to143k0 e143to146k0 e146to145k0 e145to14k0 e14to146k0 e146to169k0 e169to170k0 e170to38k0 e38to40k0 e40to41k0 e41to93k0 e93to91k0 e91to94k0 e94to95k0 e95to89k0__to_hospital_95,e4to6k0 e6to5k0 e5to23k0 e23to26k0 e26to206k0 e206to205k0 e205to216k0 e216to167k0 e167to125k0 e125to28k0 e28to212k0 e212to213k0 e213to215k0 e215to31k0 e31to144k0 e144to143k0 e143to146k0 e146to145k0 e145to16k0 e16to142k0 e142to151k0 e151to152k0 e152to153k0 e153to86k0 e86to95k0 e95to89k0__to_hospital_95,success,,,,,,,,,
+714.0,ambulance_overtake_requested,,,,,,TraCI_request_sent_collision_avoidance_mode_256,e212to213k0,2,1,356,0.379,0.0,31.38,model=9;traci=9,
+715.0,ambulance_overtake_started,,,,,,lane_change_completed,e212to213k0,2,1,356,,,,,
+719.0,ambulance_overtake_return_requested,,,,,,return_to_route_lane_requested,e212to213k0,1,2,356,,,14.99,,
+722.0,ambulance_overtake_ended,,,,,,returned_to_original_lane,e212to213k0,,,,,,,,e213to215k0
+724.0,ambulance_overtake_requested,,,,,,TraCI_request_sent_collision_avoidance_mode_256,e213to215k0,2,1,322,-0.99,0.0,92.17,model=9;traci=137,
+725.0,ambulance_overtake_started,,,,,,lane_change_completed,e213to215k0,2,1,322,,,,,
+730.0,ambulance_overtake_return_requested,,,,,,return_to_route_lane_requested,e213to215k0,1,2,322,,,71.09,,
+737.0,ambulance_overtake_ended,,,,,,edge_changed_before_return,e213to215k0,,,,,,,,e215to31k0
