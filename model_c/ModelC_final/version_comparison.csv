@@ -1,0 +1,13 @@
+route,scenario,baseline_s,v1_s,v2_final_s,v3_s,colleague_calibrated_s
+Route 1,S1,325,327,412,412,
+Route 1,S2,962,488,411,490,
+Route 1,S3,1582,579,684,594,
+Route 1,S4,1283,449,449,446,
+Route 1,S5,508,411,411,419,
+Route 1,S6,542,445,445,539,
+Route 2,S1,288,288,462,288,288
+Route 2,S2,287,287,373,287,284
+Route 2,S3,284,468,284,284,283
+Route 2,S4,554,374 (fail),374,554 (fail),350
+Route 2,S5,398,398,334,398,334
+Route 2,S6,421,419,334,419,334

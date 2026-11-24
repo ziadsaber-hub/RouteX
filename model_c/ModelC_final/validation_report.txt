@@ -1,0 +1,7 @@
+Model C validation - 12 of 12 route-condition combinations present.
+Reroute events: 5
+  improved: ['1-S2', '1-S3', '1-S4', '1-S5', '1-S6', '2-S4', '2-S5', '2-S6']
+  similar: ['2-S3']
+  worse: ['1-S1', '2-S1', '2-S2']
+  fail: []
+Issues found: 0
