@@ -1,5 +1,0 @@
-time_s,event,closed_edges,congested_edges,edge_id,from_lane,to_lane,leader_id,leader_gap_m,leader_speed_mps,remaining_distance_m,lane_change_state,result
-610.0,disruption_activated,,e200to201k0 e201to29k0 e29to31k0 e31to144k0,,,,,,,,,
-689.0,ambulance_overtake_requested,,,e212to213k0,2,1,356,0.737,0.0,31.74,model=9;traci=9,TraCI_request_sent_collision_avoidance_mode_256
-690.0,ambulance_overtake_started,,,e212to213k0,2,1,356,,,,,lane_change_completed
-695.0,ambulance_overtake_cancelled,,,e212to213k0,,,,,,9.95,,request_cancelled_before_edge_end

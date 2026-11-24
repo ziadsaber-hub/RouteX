@@ -1,11 +1,8 @@
-# Python virtual environments
 .venv/
-.venv313/
-
-# Python cache files
+.venv*/
 __pycache__/
 *.py[cod]
+.pytest_cache/
+*.bak
 
-# IDE settings
-.vscode/
-model_c_output/
+dokki_sumo_before_cleanup/

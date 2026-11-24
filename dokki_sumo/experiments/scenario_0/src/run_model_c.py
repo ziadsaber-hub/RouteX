@@ -1,7 +1,6 @@
-﻿# Model C launcher, both routes. Run from the src folder:
-#   python run_model_c.py --route 1 [--variant v4] [--seed N] [--output-tag NAME]
-#   python run_model_c.py --route 2 [--variant v4] [--seed N] [--output-tag NAME]
-# --variant v2 = items 1-5 below; v4 (default) adds item 6.
+# Model C v2 (merged) launcher, both routes. Run from the src folder:
+#   python run_model_c.py --route 1
+#   python run_model_c.py --route 2
 # v1 algorithm (penalty alternatives, live rerouting, forced closure reroute) plus:
 #  1) Travel-time estimate: blend of free-flow speed and observed mean speed (from the
 #     Route 2 Model C variant) instead of SUMO's raw edge travel time (less noise).
@@ -13,10 +12,6 @@
 #     current lane.
 #  5) Safety: an unfinished overtake lane-change request is cancelled before the edge end
 #     and the normal (safe) lane-change mode is restored.
-#  6) v4 blocked-movement rule: if the ambulance has waited >= 15 s, the turn it is
-#     waiting for is expected to block it for as long again (its cost += waiting time),
-#     the saving no longer needs a second confirmation, and turns from adjacent lanes
-#     are allowed. Nothing else changes.
 # No route is hard-coded or calibrated per scenario.
 import argparse
 import importlib
@@ -26,11 +21,9 @@ import networkx as nx
 
 ap = argparse.ArgumentParser(add_help=False)
 ap.add_argument("--route", choices=["1", "2"], required=True)
-ap.add_argument("--variant", choices=["v2", "v4"], default="v4")
 known, rest = ap.parse_known_args()
 if "--output-tag" not in rest:
-    rest += ["--output-tag", f"model_c_{known.variant}_route_{known.route}"]
-V4 = known.variant == "v4"
+    rest += ["--output-tag", f"model_c_v2_route_{known.route}"]
 import xml.etree.ElementTree as ET
 sys.argv = [sys.argv[0]] + rest
 
@@ -158,26 +151,16 @@ def step(self, timestamp, closed_edges, edge_data, scenario_id,
     except Exception:
         frac = 1.0
 
-    waited = 0.0
-    if V4:
-        try:
-            waited = float(T.vehicle.getWaitingTime(self.amb))
-        except Exception:
-            waited = 0.0
-    stuck = V4 and waited >= 15.0
     self.lane_rule = None
     try:
         left = float(T.lane.getLength(T.vehicle.getLaneID(self.amb))) - float(T.vehicle.getLanePosition(self.amb))
         if left < cfg["lane_change_lookahead_m"]:
             li = int(T.vehicle.getLaneIndex(self.amb))
-            lanes = {li - 1, li, li + 1} if stuck else {li}
-            self.lane_rule = (road, {t for (f, l, t) in lane_moves(self) if f == road and l in lanes})
+            self.lane_rule = (road, {t for (f, l, t) in lane_moves(self) if f == road and l == li})
     except Exception:
         self.lane_rule = None
 
     costs = self.costs(closed)
-    if stuck and len(remaining) > 1 and remaining[1] in costs:
-        costs[remaining[1]] += waited          # the blocked turn
     blocked = [e for e in remaining[1:] if e in closed]
     cur_cost = INF if blocked else self.route_cost(remaining, costs, frac)
     best = self.search(road, dst, costs, closed)
@@ -215,12 +198,11 @@ def step(self, timestamp, closed_edges, edge_data, scenario_id,
         # persistence: the same better route must win on consecutive checks
         self.streak = self.streak + 1 if self.streak_route == best else 1
         self.streak_route = best
-        if self.streak < (1 if stuck else cfg["confirm_checks"]):
+        if self.streak < cfg["confirm_checks"]:
             return
         if timestamp - self.last_reroute < cfg["min_seconds_between_reroutes"]:
             return
-        reason = "blocked_movement" if stuck else "threshold_exceeded"
-        trig, thr = round(saving, 4), round(need, 4)
+        reason, trig, thr = "threshold_exceeded", round(saving, 4), round(need, 4)
 
     new_cost = self.route_cost(best, costs, frac)
     alts = self.alternatives(road, dst, costs, closed, best, new_cost, frac)

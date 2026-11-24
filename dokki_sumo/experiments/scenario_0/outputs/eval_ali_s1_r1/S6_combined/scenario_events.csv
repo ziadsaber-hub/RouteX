@@ -1,3 +1,0 @@
-time_s,event,closed_edges,congested_edges,rerouted_vehicle_count,failed_vehicle_count,result
-610.0,disruption_activated,e128to196k0 e112to111k0 e128to190k0 e111to110k0,e28to214k0 e214to168k0 e168to203k0 e203to216k0,,,
-610.0,background_traffic_closure_rerouting,,,2,0,completed

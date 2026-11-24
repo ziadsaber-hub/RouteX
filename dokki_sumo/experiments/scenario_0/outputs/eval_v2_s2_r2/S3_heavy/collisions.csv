@@ -1,5 +1,0 @@
-time_s,type,lane,position_m,collider,victim,collider_speed_mps,victim_speed_mps
-461.00,junction,:36_4_0,1.85,402,363,1.95,2.16
-490.00,junction,:36_4_0,1.59,411,115,1.69,2.97
-556.00,junction,:36_3_0,4.49,502,407,7.00,3.35
-687.00,junction,:36_3_0,2.02,581,381,2.12,2.59
