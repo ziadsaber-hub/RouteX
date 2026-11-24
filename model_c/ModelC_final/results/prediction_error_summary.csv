@@ -1,0 +1,6 @@
+route_id,scenario,reroutes,mean_error_s,min_error_s,max_error_s,optimistic_share
+Route 1,S4,1,141.3,141.3,141.3,1.0
+Route 1,S5,1,134.1,134.1,134.1,1.0
+Route 1,S6,1,136.4,136.4,136.4,1.0
+Route 2,S5,1,53.9,53.9,53.9,1.0
+Route 2,S6,1,53.9,53.9,53.9,1.0

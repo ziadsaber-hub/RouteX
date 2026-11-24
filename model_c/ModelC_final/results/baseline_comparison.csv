@@ -1,0 +1,13 @@
+route_id,scenario,scenario_name,baseline_travel_s,model_c_travel_s,time_saved_s,improvement_pct,classification,baseline_waiting_s,model_c_waiting_s,waiting_reduction_s,moving_time_saved_s,baseline_distance_m,model_c_distance_m,baseline_route_updates,model_c_route_updates,baseline_ambulance_collisions,model_c_ambulance_collisions,model_c_completed,final_route_avoids_closures,final_route_corridor_edges_used
+Route 1,S1,normal,325.0,412.0,-87.0,-26.77,worse,11.0,88.0,-77.0,-10.0,2864.52,2872.06,0,0,0,0,completed,,
+Route 1,S2,moderate,962.0,411.0,551.0,57.28,improved,562.0,64.0,498.0,53.0,2864.52,3045.75,0,0,0,0,completed,,
+Route 1,S3,heavy,1582.0,684.0,898.0,56.76,improved,1136.0,325.0,811.0,87.0,2864.52,3032.15,0,0,0,0,completed,,
+Route 1,S4,localized_congestion,1283.0,449.0,834.0,65.0,improved,564.0,70.0,494.0,340.0,2864.52,3354.43,0,1,0,0,completed,,0/4
+Route 1,S5,road_closure,508.0,411.0,97.0,19.09,improved,153.0,53.0,100.0,-3.0,2965.94,2982.74,1,1,0,0,completed,True,
+Route 1,S6,combined,542.0,445.0,97.0,17.9,improved,155.0,55.0,100.0,-3.0,3342.4,3359.2,1,1,0,0,completed,True,0/4
+Route 2,S1,normal,288.0,462.0,-174.0,-60.42,worse,41.0,194.0,-153.0,-21.0,2647.26,2830.62,0,0,0,0,completed,,
+Route 2,S2,moderate,287.0,373.0,-86.0,-29.97,worse,41.0,131.0,-90.0,4.0,2647.26,2830.62,0,0,0,0,completed,,
+Route 2,S3,heavy,284.0,284.0,0.0,0.0,similar,42.0,42.0,0.0,0.0,2647.26,2647.26,0,0,0,0,completed,,
+Route 2,S4,localized_congestion,554.0,374.0,180.0,32.49,improved,99.0,100.0,-1.0,181.0,2647.26,2830.62,0,0,0,0,completed,,1/4
+Route 2,S5,road_closure,398.0,334.0,64.0,16.08,improved,41.0,0.0,41.0,23.0,3024.36,3258.87,1,1,0,0,completed,True,
+Route 2,S6,combined,421.0,334.0,87.0,20.67,improved,54.0,0.0,54.0,33.0,3376.33,3258.87,1,1,0,0,completed,True,0/4
