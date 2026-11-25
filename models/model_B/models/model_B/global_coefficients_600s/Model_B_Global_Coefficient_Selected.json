@@ -1,0 +1,39 @@
+{
+  "selected_alpha": 0.1,
+  "selected_beta": 10.0,
+  "selected_gamma": 10.0,
+  "pooled_validation_MAE_s": 4.131125022988575,
+  "pooled_validation_RMSE_s": 9.998642781720564,
+  "pooled_validation_MAPE_percent": 36.39456100947088,
+  "validation_fold_count": 45,
+  "outer_test_road_count_common_to_all_conditions": 84,
+  "search_grid": {
+    "alpha": [
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "beta": [
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "gamma": [
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ]
+  },
+  "time_windows": [
+    "0-200 seconds",
+    "200-400 seconds",
+    "400-600 seconds"
+  ],
+  "masking_unit": "whole road across all available windows",
+  "spatial_similarity": "uses the unchanged rule from model_b_estimator.py",
+  "note": "This is one tuple tuned for the current Dokki data and searched grid; it is not proof of transfer to every map."
+}
