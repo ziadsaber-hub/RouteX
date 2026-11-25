@@ -30,8 +30,8 @@ sys.argv = [sys.argv[0]] + rest
 m = importlib.import_module("model_c_runner_route1" if known.route == "1" else "model_c_runner")
 INF = float("inf")
 
-V2 = {"confirm_checks": 1, "max_step_length_ratio": 1.25, "max_trip_length_ratio": 1.30,
-      "minimum_saving_s": 0.0, "minimum_saving_fraction": 0.10,
+V2 = {"confirm_checks": 1, "queue_wait_weight": 0.5, "max_step_length_ratio": 1.25, "max_trip_length_ratio": 1.30,
+      "slowdown_confirm_checks": 3, "minimum_saving_s": 0.0, "minimum_saving_fraction": 0.10,
       "observed_speed_weight": 0.65, "minimum_speed_fraction": 0.2,
       "ambulance_max_speed_mps": 16.67, "lane_change_lookahead_m": 70.0}
 
@@ -220,7 +220,9 @@ def step(self, timestamp, closed_edges, edge_data, scenario_id,
         # persistence: the same better route must win on consecutive checks
         self.streak = self.streak + 1 if self.streak_route == best else 1
         self.streak_route = best
-        if self.streak < cfg["confirm_checks"]:
+        confirmation = "slowdown_confirm_checks" if self.live_slow_edges and not closed else "confirm_checks"
+        confirm_checks = cfg[confirmation]
+        if self.streak < confirm_checks:
             return
         if timestamp - self.last_reroute < 60.0:
             return
@@ -293,7 +295,7 @@ def costs_v1(self, closed):
         # A long-standing queue can make a detour unsuitable even at low occupancy.
         if queue > 0:
             waiting = T.edge.getWaitingTime(e)
-            c[e] += min(180.0, waiting / lanes)
+            c[e] += min(180.0, self.cfg.get("queue_wait_weight", V2["queue_wait_weight"]) * waiting / lanes)
     return c
 
 
@@ -302,48 +304,14 @@ MC.begin, MC.initial_route, MC.step, MC.search = begin, initial_route, step, sea
 
 _load = m.load_baseline
 
-
 def load_baseline(cfg, sumo_path):
-    from shared_disruptions import apply_shared_disruptions
-
-    cfg["route_id"] = f"Route {known.route}"
     ns = _load(cfg, sumo_path)
-    apply_shared_disruptions(ns, int(known.route))
     ns.pop("PAIR2_REFERENCE_ROUTE", None)
     ns["AMBULANCE_KNOWN_BLOCKAGE_EDGES"] = ()
-    orig = ns.get("manage_ambulance_overtake")
-    if orig is None:
-        return ns
-
-    def safe_overtake(timestamp, overtake_state, scenario_events, lane_transition_map):
-        T, aid = ns["traci"], ns["AMBULANCE_ID"]
-        busy = overtake_state.get("pending") or overtake_state.get("active") or overtake_state.get("returning")
-        if busy and aid in T.vehicle.getIDList():
-            try:
-                lane = T.vehicle.getLaneID(aid)
-                left = float(T.lane.getLength(lane)) - float(T.vehicle.getLanePosition(aid))
-                speed = float(T.vehicle.getSpeed(aid))
-                if lane.startswith(":") or left <= max(2.0 * speed, 10.0):
-                    # Cancel the unfinished request: keep the current lane, back to safe mode.
-                    T.vehicle.setLaneChangeMode(aid, int(overtake_state.get(
-                        "original_lane_change_mode", ns["DEFAULT_LANE_CHANGE_MODE"])))
-                    if not lane.startswith(":"):
-                        T.vehicle.changeLane(aid, int(T.vehicle.getLaneIndex(aid)), 1.0)
-                    scenario_events.append({"time_s": timestamp, "event": "ambulance_overtake_cancelled",
-                                            "edge_id": T.vehicle.getRoadID(aid), "remaining_distance_m": round(left, 2),
-                                            "result": "request_cancelled_before_edge_end"})
-                    overtake_state.clear()
-                    overtake_state["retry_after"] = float(timestamp) + 3.0
-                    return
-            except Exception:
-                pass
-        return orig(timestamp, overtake_state, scenario_events, lane_transition_map)
-
-    ns["manage_ambulance_overtake"] = safe_overtake
     return ns
 
-
 m.load_baseline = load_baseline
+
 
 if __name__ == "__main__":
     m.main()

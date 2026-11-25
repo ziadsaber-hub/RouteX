@@ -330,13 +330,8 @@ def load_baseline(cfg, sumo_path):
         ns["SUMO"] = sumo_path
     ns["try_reactive_ambulance_reroute"] = lambda **kw: None      # baseline policy off
 
-    # Disruption locations must stay exactly the Scenario 0 ones.
-    conf = json.loads((ns["BASE"] / "outputs" / "final" / "route_1" /
-                       "route_configuration.json").read_text(encoding="utf-8"))
-    fixed = {k: list(conf[k]) for k in
-             ("route_closures", "nearby_closures", "all_closures")}
-    fixed["congestion_edges"] = list(conf["congestion_edges"])
-    ns["select_disruption_roads"] = lambda *a, **k: fixed
+    from official_disruptions import apply_official_disruptions
+    apply_official_disruptions(ns, 1)
 
     original = ns["run_scenario"]
 
