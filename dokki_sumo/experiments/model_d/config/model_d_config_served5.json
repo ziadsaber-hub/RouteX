@@ -1,0 +1,23 @@
+{
+  "_comment": "Experiment: same as model_d_config.json but served_sigma_k=5 (was 1): the controller trusts \"the normal program already serves the ambulance\" only if the whole +-5 sigma window is green.",
+  "eta_uncertainty_ratio": 0.15,
+  "queue_discharge_rate_veh_per_s_per_lane": 0.5,
+  "safety_margin_k": 2.0,
+  "served_sigma_k": 5.0,
+  "activation_horizon_s": 90.0,
+  "min_green_other_phase_s": 5.0,
+  "truncate_to_s": 1.0,
+  "pass_margin_s": 3.0,
+  "max_extension_s": 20.0,
+  "g_max_s": 40.0,
+  "min_edge_speed_mps": 1.0,
+  "eta_log_interval_s": 5.0,
+  "stopped_speed_mps": 0.1,
+  "forced_start_margin_s": 3.0,
+  "queue_aware_eta": true,
+  "queue_pass_factor": 1.0,
+  "max_queue_hold_s": 30.0,
+  "convoy_window_s": 45.0,
+  "own_speed_eta": false,
+  "own_speed_floor_mps": 5.0
+}
