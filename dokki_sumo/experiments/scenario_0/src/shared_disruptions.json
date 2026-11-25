@@ -1,0 +1,34 @@
+{
+  "route_closures": [
+    "e196to192k0",
+    "e192to172k0",
+    "e144to143k0",
+    "e86to95k0"
+  ],
+  "nearby_closures": [
+    "e128to196k0",
+    "e172to193k1",
+    "e13to16k0",
+    "e140to142k0"
+  ],
+  "congestion_edges": [
+    "e28to214k0",
+    "e214to168k0",
+    "e168to203k0",
+    "e203to216k0",
+    "e200to201k0",
+    "e201to29k0",
+    "e29to31k0",
+    "e31to144k0"
+  ],
+  "all_closures": [
+    "e196to192k0",
+    "e192to172k0",
+    "e144to143k0",
+    "e86to95k0",
+    "e128to196k0",
+    "e172to193k1",
+    "e13to16k0",
+    "e140to142k0"
+  ]
+}

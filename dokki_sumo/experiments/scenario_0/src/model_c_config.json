@@ -1,0 +1,12 @@
+{
+  "route_id": "Route 2",
+  "check_interval_s": 5,
+  "reroute_threshold": 0.10,
+  "min_seconds_between_reroutes": 20,
+  "k_alternatives": 3,
+  "max_detour_ratio": 1.5,
+  "max_overlap": 0.8,
+  "penalty_factor": 1.5,
+  "penalty_tries": 20,
+  "min_edge_travel_time_s": 0.1
+}
