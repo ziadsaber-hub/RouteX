@@ -26,3 +26,8 @@ In cd mode, the runner calls the original Model C step, then calls the original 
 Outputs are written under dokki_sumo/experiments/scenario_0/outputs by output tag. For connector parity, run cd with --controller-off and compare the resulting scenario summaries against c. For the supplied Model D unit tests, run:
 
     python dokki_sumo/experiments/model_d/tests/test_controller_fake_sumo.py
+## Routing cost in combined mode
+
+The tuning applies only when Model D is enabled with Model C. The route cost can credit up to 45 s of estimated delay above free-flow time on signal-controlled approaches discovered from SUMO. A link observed at a reduced speed within 1,000 m of the destination can incur a 90 s routing penalty. The radius is shortest directed network distance. If a closure and such a slowdown coexist, the runner uses the original Model C cost and keeps the signal controller enabled.
+
+These are empirical seed-1 routing weights. They only affect path ranking. The official network, lane speed limits, closures, traffic demand, and standalone Model C and Model D implementations remain the same.

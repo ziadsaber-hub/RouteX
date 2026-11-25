@@ -6,10 +6,16 @@ import runpy
 import sys
 from pathlib import Path
 
+import networkx as nx
+
 HERE = Path(__file__).resolve().parent
 SCENARIO_SRC = HERE.parents[1] / "scenario_0" / "src"
 D_SRC = HERE.parents[1] / "model_d" / "src"
 D_CONFIG = D_SRC.parent / "config" / "model_d_config_skip_stopped.json"
+# These weights influence route ranking only. SUMO retains the official road settings.
+SIGNAL_PRIORITY_CREDIT_S = 45.0
+HOSPITAL_APPROACH_RADIUS_M = 1000.0
+APPROACH_SLOWDOWN_PENALTY_S = 90.0
 sys.path[:0] = [str(SCENARIO_SRC), str(D_SRC)]
 
 from model_d_controller import ModelDController, load_config, write_csv_rows
@@ -53,6 +59,45 @@ def attach_signals(namespace, config, enabled):
             controller.step(float(timestamp))
 
     if "MC" in namespace:
+        mc = namespace["MC"]
+        original_costs = mc.costs
+        signal_edges = None
+        distances_by_destination = {}
+
+        def costs_with_signal_priority(closed):
+            nonlocal signal_edges
+            costs = original_costs(closed)
+            if signal_edges is None:
+                signal_edges = {
+                    mc.T.lane.getEdgeID(link[0])
+                    for tls in mc.T.trafficlight.getIDList()
+                    for group in mc.T.trafficlight.getControlledLinks(tls)
+                    for link in group
+                }
+            approach_slowed = set()
+            slowed = mc.live_slow_edges & costs.keys()
+            if slowed:
+                destination = mc.T.vehicle.getRoute(mc.amb)[-1]
+                if destination not in distances_by_destination:
+                    distances_by_destination[destination] = nx.single_source_dijkstra_path_length(
+                        mc.G.reverse(copy=False), destination,
+                        cutoff=HOSPITAL_APPROACH_RADIUS_M,
+                        weight=lambda _, edge, _link: mc.edge_data[edge]["length"] if edge in mc.edge_data else None,
+                    )
+                approach_slowed = slowed & distances_by_destination[destination].keys()
+            if approach_slowed and closed:
+                # Keep the original forced-closure policy when a destination
+                # approach is also slowed. The signal controller still runs.
+                return costs
+            for edge in signal_edges & costs.keys():
+                free = mc.edge_data[edge]["length"] / max(mc.T.lane.getMaxSpeed(edge + "_0"), 0.1)
+                costs[edge] -= min(SIGNAL_PRIORITY_CREDIT_S, max(0.0, costs[edge] - free))
+            for edge in approach_slowed:
+                costs[edge] += APPROACH_SLOWDOWN_PENALTY_S
+            return costs
+
+        if enabled:
+            mc.costs = costs_with_signal_priority
         original_step = namespace["MC"].step
         def step_with_signals(*args, **kwargs):
             original_step(*args, **kwargs)
